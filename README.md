@@ -26,7 +26,3 @@
 * Sensorway.Framework.ViewBase
 * Sensorway.VMS.Messages 
 
-<hr>
-
-### Update Date: 2023/01/20
-
