@@ -1,0 +1,11 @@
+﻿using Sensorway.Framework.Models.Messages;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels
+{
+    public interface IBasePanelViewModel
+    {
+        Task HandleAsync(CloseAllMessageModel message, CancellationToken cancellationToken);
+    }
+}

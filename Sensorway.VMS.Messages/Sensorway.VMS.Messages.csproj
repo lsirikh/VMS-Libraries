@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{89B43B66-6872-4DEF-A07C-338897FB60DB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sensorway.VMS.Messages</RootNamespace>
+    <AssemblyName>Sensorway.VMS.Messages</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\Sensorway.VMS.Solution.Server\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enums\EnumCommand.cs" />
+    <Compile Include="Enums\EnumMediaServerSource.cs" />
+    <Compile Include="Enums\EnumMediaServerStatus.cs" />
+    <Compile Include="Enums\EnumVMSServerStatus.cs" />
+    <Compile Include="Models\Base\BaseCommunicationModel.cs" />
+    <Compile Include="Models\Base\BaseResponseModel.cs" />
+    <Compile Include="Models\Common\DeleteZoneRequest.cs" />
+    <Compile Include="Models\Common\DeleteZoneResponse.cs" />
+    <Compile Include="Models\Common\GetDummyListRequest.cs" />
+    <Compile Include="Models\Common\GetDummyListResponse.cs" />
+    <Compile Include="Models\Common\GetZoneListRequest.cs" />
+    <Compile Include="Models\Common\GetZoneListResponse.cs" />
+    <Compile Include="Models\Common\SetZoneRequest.cs" />
+    <Compile Include="Models\Common\SetZoneResponse.cs" />
+    <Compile Include="Models\Communications\EditCameraDeviceResponse.cs" />
+    <Compile Include="Models\Communications\EditCameraDeviceRequest.cs" />
+    <Compile Include="Models\Communications\focus\FocusControlRequest.cs" />
+    <Compile Include="Models\Communications\focus\FocusControlResponse.cs" />
+    <Compile Include="Models\Communications\GetCameraListRequest.cs" />
+    <Compile Include="Models\Communications\GetCameraListResponse.cs" />
+    <Compile Include="Models\Communications\Presets\DeletePresetRequest.cs" />
+    <Compile Include="Models\Communications\Presets\DeletePresetResponse.cs" />
+    <Compile Include="Models\Communications\Presets\GetPresetListRequest.cs" />
+    <Compile Include="Models\Communications\Presets\GetPresetListResponse.cs" />
+    <Compile Include="Models\Communications\Presets\MovePresetRequest.cs" />
+    <Compile Include="Models\Communications\Presets\MovePresetResponse.cs" />
+    <Compile Include="Models\Communications\Presets\SetPresetRequest.cs" />
+    <Compile Include="Models\Communications\Presets\SetPresetResponse.cs" />
+    <Compile Include="Models\Communications\Ptzs\PtzControlRequest.cs" />
+    <Compile Include="Models\Communications\Ptzs\PtzControlResponse.cs" />
+    <Compile Include="Models\Communications\RegisterCameraDeviceRequest.cs" />
+    <Compile Include="Enums\EnumType.cs" />
+    <Compile Include="Models\Communications\RegisterCameraDeviceResponse.cs" />
+    <Compile Include="Models\Communications\UnregisterCameraDeviceRequest.cs" />
+    <Compile Include="Models\Communications\UnregisterCameraDeviceResponse.cs" />
+    <Compile Include="Models\Devices\IVMSCameraModel.cs" />
+    <Compile Include="Models\Devices\VMSCameraModel.cs" />
+    <Compile Include="Models\MediaServers\IMediaServerModel.cs" />
+    <Compile Include="Models\MediaServers\MediaServerModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\IdGenTool.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Accounts\" />
+    <Folder Include="Models\Configs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dotnet.OnvifSolution.Base\Dotnet.OnvifSolution.Base.csproj">
+      <Project>{bf970c56-ba5a-4db3-ab62-add24383aab7}</Project>
+      <Name>Dotnet.OnvifSolution.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sensorway.Framework.Models\Sensorway.Framework.Models.csproj">
+      <Project>{23f65267-edb8-475d-8cd8-4942eb217b15}</Project>
+      <Name>Sensorway.Framework.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
