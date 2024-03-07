@@ -15,7 +15,7 @@ namespace Sensorway.VMS.Messages.Models.Communications.Presets
         Email        : lsirikh@naver.com                                         
      ****************************************************************************/
 
-    public class GetPresetListResponse : BaseResponseModel
+    public class GetPresetListResponse : BaseGenericResponseModel<GetPresetListRequest>
     {
 
         #region - Ctors -
@@ -23,14 +23,13 @@ namespace Sensorway.VMS.Messages.Models.Communications.Presets
         {
         }
 
-        public GetPresetListResponse(string deviceName = null,
-                                    List<PTZPresetModel> presets = default,
+        public GetPresetListResponse(List<PTZPresetModel> presets = default,
+                                    GetPresetListRequest requestMessage = default,
                                     bool isSuccess = true,
                                     string message = null)
-                                    : base(null, EnumCommand.RESPONSE_PRESET_LIST, isSuccess, message)
+                                    : base(null, EnumCommand.RESPONSE_PRESET_LIST, requestMessage, isSuccess, message)
         {
-            DeviceName = deviceName;
-            Presets = presets;
+            Body = presets;
         }
         #endregion
         #region - Implementation of Interface -
@@ -44,10 +43,9 @@ namespace Sensorway.VMS.Messages.Models.Communications.Presets
         #region - IHanldes -
         #endregion
         #region - Properties -
-        [JsonProperty("device_name", Order = 5)]
-        public string DeviceName { get; set; }
+      
         [JsonProperty("body", Order = 6)]
-        public List<PTZPresetModel> Presets { get; set; }
+        public List<PTZPresetModel> Body { get; set; }
         #endregion
         #region - Attributes -
         #endregion

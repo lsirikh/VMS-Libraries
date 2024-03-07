@@ -16,7 +16,7 @@ namespace Sensorway.VMS.Messages.Models.Common
         Email        : lsirikh@naver.com                                         
      ****************************************************************************/
 
-    public class GetZoneListResponse : BaseResponseModel
+    public class GetZoneListResponse : BaseGenericResponseModel<GetZoneListRequest>
     {
 
         #region - Ctors -
@@ -25,11 +25,12 @@ namespace Sensorway.VMS.Messages.Models.Common
         }
 
         public GetZoneListResponse(List<CameraZoneModel> list = default,
+                                    GetZoneListRequest requestMessage = default,
                                     bool isSuccess = true,
                                     string message = null)
-                                    : base(null, EnumCommand.RESPONSE_ZONE_LIST, isSuccess, message)
+                                    : base(null, EnumCommand.RESPONSE_ZONE_LIST, requestMessage, isSuccess, message)
         {
-            List = list;
+            Body = list;
         }
         #endregion
         #region - Implementation of Interface -
@@ -43,8 +44,8 @@ namespace Sensorway.VMS.Messages.Models.Common
         #region - IHanldes -
         #endregion
         #region - Properties -
-        [JsonProperty("body", Order = 5)]
-        public List<CameraZoneModel> List { get; set; }
+        [JsonProperty("body", Order = 6)]
+        public List<CameraZoneModel> Body { get; set; }
         #endregion
         #region - Attributes -
         #endregion

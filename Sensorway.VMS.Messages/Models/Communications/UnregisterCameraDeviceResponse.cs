@@ -14,7 +14,7 @@ namespace Sensorway.VMS.Messages.Models.Communications
         Email        : lsirikh@naver.com                                         
      ****************************************************************************/
 
-    public class UnregisterCameraDeviceResponse : BaseResponseModel
+    public class UnregisterCameraDeviceResponse : BaseGenericResponseModel<UnregisterCameraDeviceRequest>
     {
 
         #region - Ctors -
@@ -22,8 +22,10 @@ namespace Sensorway.VMS.Messages.Models.Communications
         {
         }
 
-        public UnregisterCameraDeviceResponse(bool isSuccess = true, string message = null)
-                                            : base(null, EnumCommand.RESPONSE_UNREGISTER_CAMERA_DEVICE, isSuccess, message)
+        public UnregisterCameraDeviceResponse(UnregisterCameraDeviceRequest requestMessage = default,
+                                            bool isSuccess = true,
+                                            string message = null)
+                                            : base(null, EnumCommand.RESPONSE_UNREGISTER_CAMERA_DEVICE, requestMessage, isSuccess, message)
         {
         }
         #endregion

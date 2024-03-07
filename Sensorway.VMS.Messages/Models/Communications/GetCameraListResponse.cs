@@ -17,7 +17,7 @@ namespace Sensorway.VMS.Messages.Models.Communications
         Email        : lsirikh@naver.com                                         
      ****************************************************************************/
 
-    public class GetCameraListResponse : BaseResponseModel
+    public class GetCameraListResponse : BaseGenericResponseModel<GetCameraListRequest>
     {
 
         #region - Ctors -
@@ -26,9 +26,10 @@ namespace Sensorway.VMS.Messages.Models.Communications
         }
 
         public GetCameraListResponse(List<VMSCameraModel> list = default,
+                                    GetCameraListRequest requestMessage = default,
                                     bool isSuccess = true,
                                     string message = null)
-                                    : base(null, EnumCommand.RESPONSE_CAMERA_LIST, isSuccess, message)
+                                    : base(null, EnumCommand.RESPONSE_CAMERA_LIST, requestMessage, isSuccess, message)
         {
             Body = list;
         }
@@ -44,7 +45,7 @@ namespace Sensorway.VMS.Messages.Models.Communications
         #region - IHanldes -
         #endregion
         #region - Properties -
-        [JsonProperty("body", Order = 5)]
+        [JsonProperty("body", Order = 6)]
         public List<VMSCameraModel> Body { get; set; }
         #endregion
         #region - Attributes -

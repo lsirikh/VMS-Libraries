@@ -44,7 +44,7 @@
         RESPONSE_MOVE_PRESET,
 
         /// <summary>
-        /// Dummy File List Request & Response
+        /// Dummy File Body Request & Response
         /// </summary>
         REQUEST_DUMMY_LIST,
         RESPONSE_DUMMY_LIST,

@@ -22,7 +22,8 @@ namespace Sensorway.VMS.Messages.Models.Common
         {
         }
 
-        public DeleteZoneRequest(CameraZoneModel model = default) : base(null, EnumType.REQUEST, EnumCommand.REQUEST_DELETE_ZONE)
+        public DeleteZoneRequest(CameraZoneModel model = default)
+                                : base(null, EnumType.REQUEST, EnumCommand.REQUEST_DELETE_ZONE)
         {
             Body = model;
         }

@@ -17,7 +17,7 @@ namespace Sensorway.VMS.Messages.Models.Communications
         Email        : lsirikh@naver.com                                         
      ****************************************************************************/
 
-    public class RegisterCameraDeviceResponse : BaseResponseModel
+    public class RegisterCameraDeviceResponse : BaseGenericResponseModel<RegisterCameraDeviceRequest>
     {
 
         #region - Ctors -
@@ -25,10 +25,11 @@ namespace Sensorway.VMS.Messages.Models.Communications
         {
         }
 
-        public RegisterCameraDeviceResponse(VMSCameraModel model = default, 
+        public RegisterCameraDeviceResponse(VMSCameraModel model = default,
+                                            RegisterCameraDeviceRequest requestMessage = default,
                                             bool isSuccess = true, 
                                             string message = null)
-                                            : base(null, EnumCommand.RESPONSE_REGISTER_CAMERA_DEVICE, isSuccess, message)
+                                            : base(null, EnumCommand.RESPONSE_REGISTER_CAMERA_DEVICE, requestMessage, isSuccess, message)
         {
             Body = model;
         }
@@ -44,7 +45,7 @@ namespace Sensorway.VMS.Messages.Models.Communications
         #region - IHanldes -
         #endregion
         #region - Properties -
-        [JsonProperty("body", Order = 5)]
+        [JsonProperty("body", Order = 6)]
         public VMSCameraModel Body { get; set; }
         #endregion
         #region - Attributes -

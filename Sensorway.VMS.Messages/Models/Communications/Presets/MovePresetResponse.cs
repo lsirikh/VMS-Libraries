@@ -15,7 +15,7 @@ namespace Sensorway.VMS.Messages.Models.Communications.Presets
         Email        : lsirikh@naver.com                                         
      ****************************************************************************/
 
-    public class MovePresetResponse : BaseResponseModel
+    public class MovePresetResponse : BaseGenericResponseModel<MovePresetRequest>
     {
 
         #region - Ctors -
@@ -23,12 +23,11 @@ namespace Sensorway.VMS.Messages.Models.Communications.Presets
         {
         }
 
-        public MovePresetResponse(string deviceName = null,
+        public MovePresetResponse(MovePresetRequest requestMessage = default,
                                     bool isSuccess = true,
                                     string message = null)
-                                    : base(null, EnumCommand.RESPONSE_MOVE_PRESET, isSuccess, message)
+                                    : base(null, EnumCommand.RESPONSE_MOVE_PRESET, requestMessage, isSuccess, message)
         {
-            DeviceName = deviceName;
         }
         #endregion
         #region - Implementation of Interface -
@@ -42,8 +41,6 @@ namespace Sensorway.VMS.Messages.Models.Communications.Presets
         #region - IHanldes -
         #endregion
         #region - Properties -
-        [JsonProperty("device_name", Order = 5)]
-        public string DeviceName { get; set; }
         #endregion
         #region - Attributes -
         #endregion

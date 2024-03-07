@@ -16,7 +16,7 @@ namespace Sensorway.VMS.Messages.Models.Common
         Email        : lsirikh@naver.com                                         
      ****************************************************************************/
 
-    public class DeleteZoneResponse : BaseResponseModel
+    public class DeleteZoneResponse : BaseGenericResponseModel<DeleteZoneRequest>
     {
 
         #region - Ctors -
@@ -25,11 +25,12 @@ namespace Sensorway.VMS.Messages.Models.Common
         }
 
         public DeleteZoneResponse(List<CameraZoneModel> list = default
-                                ,bool isSuccess = true
+                                , DeleteZoneRequest requestMessage = default
+                                , bool isSuccess = true
                                 , string message = null)
-                                : base(null, EnumCommand.RESPONSE_DELETE_ZONE, isSuccess, message)
+                                : base(null, EnumCommand.RESPONSE_DELETE_ZONE, requestMessage, isSuccess, message)
         {
-            List = list;
+            Body = list;
         }
         #endregion
         #region - Implementation of Interface -
@@ -43,8 +44,8 @@ namespace Sensorway.VMS.Messages.Models.Common
         #region - IHanldes -
         #endregion
         #region - Properties -
-        [JsonProperty("body", Order = 5)]
-        public List<CameraZoneModel> List { get; set; }
+        [JsonProperty("body", Order = 6)]
+        public List<CameraZoneModel> Body { get; set; }
         #endregion
         #region - Attributes -
         #endregion

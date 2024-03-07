@@ -85,6 +85,7 @@
     <Compile Include="Enums\EnumMediaServerStatus.cs" />
     <Compile Include="Enums\EnumVMSServerStatus.cs" />
     <Compile Include="Models\Base\BaseCommunicationModel.cs" />
+    <Compile Include="Models\Base\BaseGenericResponseModel.cs" />
     <Compile Include="Models\Base\BaseResponseModel.cs" />
     <Compile Include="Models\Common\DeleteZoneRequest.cs" />
     <Compile Include="Models\Common\DeleteZoneResponse.cs" />

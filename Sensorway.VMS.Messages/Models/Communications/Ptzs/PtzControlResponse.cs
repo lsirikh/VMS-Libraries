@@ -14,7 +14,7 @@ namespace Sensorway.VMS.Messages.Models.Communications.Ptzs
         Email        : lsirikh@naver.com                                         
      ****************************************************************************/
 
-    public class PtzControlResponse : BaseResponseModel
+    public class PtzControlResponse : BaseGenericResponseModel<PtzControlRequest>
     {
 
         #region - Ctors -
@@ -22,13 +22,12 @@ namespace Sensorway.VMS.Messages.Models.Communications.Ptzs
         {
         }
 
-        public PtzControlResponse(string deviceName = null,
-                                    EnumCommand command = EnumCommand.NONE,
+        public PtzControlResponse(EnumCommand command = EnumCommand.NONE,
+                                    PtzControlRequest requestMessage = default,
                                     bool isSuccess = true,
                                     string message = null)
-                                    : base (null, command, isSuccess, message)
+                                    : base (null, command, requestMessage, isSuccess, message)
         {
-            DeviceName = deviceName;
         }
         #endregion
         #region - Implementation of Interface -
@@ -42,8 +41,6 @@ namespace Sensorway.VMS.Messages.Models.Communications.Ptzs
         #region - IHanldes -
         #endregion
         #region - Properties -
-        [JsonProperty("device_name", Order = 5)]
-        public string DeviceName { get; set; }
         #endregion
         #region - Attributes -
         #endregion

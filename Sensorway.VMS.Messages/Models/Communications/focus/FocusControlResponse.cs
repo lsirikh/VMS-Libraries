@@ -13,7 +13,7 @@ namespace Sensorway.VMS.Messages.Models.Communications.focus
         Email        : lsirikh@naver.com                                         
      ****************************************************************************/
 
-    public class FocusControlResponse : BaseResponseModel
+    public class FocusControlResponse : BaseGenericResponseModel<FocusControlRequest>
     {
 
         #region - Ctors -
@@ -21,13 +21,12 @@ namespace Sensorway.VMS.Messages.Models.Communications.focus
         {
         }
 
-        public FocusControlResponse(string deviceName = null,
-                                    EnumCommand command = EnumCommand.NONE,
+        public FocusControlResponse(EnumCommand command = EnumCommand.NONE,
+                                    FocusControlRequest requestMessage = default,
                                     bool isSuccess = true,
                                     string message = null)
-                                    : base(null, command, isSuccess, message)
+                                    : base(null, command, requestMessage, isSuccess, message)
         {
-            DeviceName = deviceName;
         }
         #endregion
         #region - Implementation of Interface -
@@ -41,8 +40,6 @@ namespace Sensorway.VMS.Messages.Models.Communications.focus
         #region - IHanldes -
         #endregion
         #region - Properties -
-        [JsonProperty("device_name", Order = 5)]
-        public string DeviceName { get; set; }
         #endregion
         #region - Attributes -
         #endregion

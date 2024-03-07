@@ -15,7 +15,7 @@ namespace Sensorway.VMS.Messages.Models.Common
         Email        : lsirikh@naver.com                                         
      ****************************************************************************/
 
-    public class GetDummyListResponse : BaseResponseModel
+    public class GetDummyListResponse : BaseGenericResponseModel<GetDummyListRequest>
     {
 
         #region - Ctors -
@@ -24,11 +24,12 @@ namespace Sensorway.VMS.Messages.Models.Common
 
         }
         public GetDummyListResponse(List<string> list = default,
+                                    GetDummyListRequest requestMessage = default,
                                     bool isSuccess = true,
                                     string message = null)
-                                    : base(null, EnumCommand.RESPONSE_DUMMY_LIST, isSuccess, message)
+                                    : base(null, EnumCommand.RESPONSE_DUMMY_LIST, requestMessage, isSuccess, message)
         {
-            List = list;
+            Body = list;
         }
 
         #endregion
@@ -43,8 +44,8 @@ namespace Sensorway.VMS.Messages.Models.Common
         #region - IHanldes -
         #endregion
         #region - Properties -
-        [JsonProperty("body", Order = 5)]
-        public List<string> List { get; set; }
+        [JsonProperty("body", Order = 6)]
+        public List<string> Body { get; set; }
         #endregion
         #region - Attributes -
         #endregion
