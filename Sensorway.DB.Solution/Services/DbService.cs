@@ -314,6 +314,16 @@ namespace Sensorway.DB.Solution.Services
 
                     if(model.Zone == null) throw new Exception($"CameraDevice does not have 'zone' property.");
 
+                    // DB에서 devicename 혹은 ipaddress가 이미 있는지 확인
+                    var existResult = await _conn.QueryFirstOrDefaultAsync<int>($@"SELECT COUNT(1) FROM {table}
+                                                                                WHERE devicename = @DeviceName OR ipaddress = @IpAddress"
+                                                                                , new { DeviceName = model.DeviceName, IpAddress = model.IpAddress });
+
+                    if (existResult > 0)
+                    {
+                        throw new Exception($"[{model.DeviceName}({model.IpAddress})]DeviceName or IpAddress already exists in the database.");
+                    }
+
                     var dapper = new CameraDeviceDapper(model);
                     commitResult = await _conn.ExecuteAsync($@"INSERT INTO {table} 
                         (devicename, zone, username, password, ipaddress, port, portonvif, portrtsp, rtspauthrequired, isdummy, dummyoption, manufacturer, devicemodel, firmwareversion, serialnumber, hardwareid) 
@@ -382,6 +392,16 @@ namespace Sensorway.DB.Solution.Services
                         foreach (var model in _cameraDeviceProvider)
                         {
                             if (token.IsCancellationRequested) throw new TaskCanceledException();
+
+                            // DB에서 devicename 혹은 ipaddress가 이미 있는지 확인
+                            var existResult = await _conn.QueryFirstOrDefaultAsync<int>($@"SELECT COUNT(1) FROM {table}
+                                                                                WHERE devicename = @DeviceName OR ipaddress = @IpAddress"
+                                                                                        , new { DeviceName = model.DeviceName, IpAddress = model.IpAddress });
+
+                            if (existResult > 0)
+                            {
+                                _log.Info($"[{model.DeviceName}({model.IpAddress})]DeviceName or IpAddress already exists in the database.");
+                            }
 
                             var dapper = new CameraDeviceDapper(model);
                             commitResult = await _conn.ExecuteAsync($@"INSERT INTO {table} 
