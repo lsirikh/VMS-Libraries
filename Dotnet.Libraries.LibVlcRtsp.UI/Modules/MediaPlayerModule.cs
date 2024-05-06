@@ -28,7 +28,14 @@ namespace Dotnet.Libraries.LibVlcRtsp.UI.Modules
                 builder.Register(ctx =>
                 {
                     Core.Initialize();
-                    var libVlc = new LibVLC();
+                    string[] options = {
+                        "--avcodec-hw=dxva2", // Windows의 경우 dxva2, Linux의 경우 vaapi 또는 vdpau 사용
+                        "--vout=direct3d11", // Windows의 경우 direct3d11, 다른 플랫폼에서는 "gl" 사용 가능
+                        "--network-caching=200", // 네트워크 캐싱 시간을 200ms로 설정
+                        "--no-video-title-show", // 비디오 재생 시 타이틀 표시 안 함
+                        "--directx-use-sysmem" // DirectX에서 GPU 메모리 사용
+                    };
+                    var libVlc = new LibVLC(options);
                     var mediaPlayer = new VlcMediaPlayer(libVlc);
                     return mediaPlayer;
                 })

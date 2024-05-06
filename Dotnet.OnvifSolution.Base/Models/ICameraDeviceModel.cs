@@ -1,5 +1,6 @@
 ﻿using Dotnet.OnvifSolution.Base.Enums;
 using Sensorway.Framework.Models.Defines;
+using System;
 
 namespace Dotnet.OnvifSolution.Base.Models
 {
@@ -9,5 +10,6 @@ namespace Dotnet.OnvifSolution.Base.Models
         EnumCameraType Type { get; set; }
         CameraMediaModel CameraMedia { get; set; }
         EnumCameraStatus CameraStatus { get; set; }
+        DateTime UpdateTime { get; set; }
     }
 }

@@ -186,7 +186,11 @@ namespace Sensorway.DB.Solution.Services
             await FetchCameraZones(token);
             await CheckDefaultZoneTask(token);
             
-            await FetchCameraDevices(token);
+            var list = await FetchCameraDevices(token);
+            foreach (var item in list)
+            {
+                _cameraDeviceProvider.Add(item);
+            }
         }
 
         private async Task CheckDefaultZoneTask(CancellationToken token, TaskCompletionSource<bool> tcs = default)
@@ -256,7 +260,7 @@ namespace Sensorway.DB.Solution.Services
 
         
 
-        public async Task FetchCameraDevices(CancellationToken token = default, TaskCompletionSource<bool> tcs = default)
+        public async Task<List<ICameraDeviceModel>> FetchCameraDevices(CancellationToken token = default, TaskCompletionSource<bool> tcs = default)
         {
             try
             {
@@ -269,7 +273,7 @@ namespace Sensorway.DB.Solution.Services
                 var sql = @$"SELECT * FROM {CAMERA_DEVICE_TABLE}";
                 
                 var commitResult = 0;
-
+                List<ICameraDeviceModel> cameras = new List<ICameraDeviceModel>();
                 foreach (var model in (await _conn.QueryAsync<CameraDeviceDapper>(sql)))    //1
                 {
                     if (token.IsCancellationRequested)
@@ -279,21 +283,26 @@ namespace Sensorway.DB.Solution.Services
                     var camera = new CameraDeviceModel(model);
                     camera.Zone = zone as CameraZoneModel;
 
-                    _cameraDeviceProvider.Add(camera);
+                    cameras.Add(camera);
+                    //_cameraDeviceProvider.Add(camera);
                     commitResult ++;
                 };
                 _log.Info($"({commitResult}) rows was fetched in DB[{CAMERA_DEVICE_TABLE}].", true);
+
                 tcs?.SetResult(true);
+                return cameras;
             }
             catch (TaskCanceledException ex)
             {
                 _log.Error($"Raised {nameof(TaskCanceledException)} in {nameof(FetchCameraDevices)} of {nameof(DbService)} : {ex}");
                 tcs?.SetException(ex);
+                return null;
             }
             catch (Exception ex)
             {
                 _log.Error($"Raised {nameof(Exception)} in {nameof(FetchCameraDevices)} of {nameof(DbService)} : {ex}");
                 tcs?.SetException(ex);
+                return null;
             }
         }
 

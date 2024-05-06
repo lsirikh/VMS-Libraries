@@ -17,6 +17,7 @@ namespace Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels
         #region - Ctors -
         public BaseViewModel(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
         }
         public BaseViewModel(T model)
         {

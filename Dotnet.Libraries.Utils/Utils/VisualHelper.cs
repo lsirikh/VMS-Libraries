@@ -23,6 +23,15 @@ namespace Dotnet.Libraries.Utils
         #region - Binding Methods -
         #endregion
         #region - Processes -
+        /// <summary>
+        /// VisualTreeHelper를 활용하여 주어진 부모 컨트롤(DependencyObject)로부터 특정 이름(childName)을 
+        /// 가진 자식 컨트롤을 재귀적으로 찾는 메서드입니다. T는 찾고자 하는 컨트롤의 타입을 지정합니다. 
+        /// 이 메서드는 일반적으로 다양한 WPF 컨트롤의 중첩된 구조 안에서 특정 이름을 가진 자식 컨트롤을 찾을 때 사용됩니다.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parent"></param>
+        /// <param name="childName"></param>
+        /// <returns></returns>
         public static T FindChild<T>(DependencyObject parent, string childName) where T : FrameworkElement
         {
             if (parent == null) return null;
@@ -46,6 +55,28 @@ namespace Dotnet.Libraries.Utils
             }
 
             return foundChild;
+        }
+
+        /// <summary>
+        /// VisualTreeHelper.GetParent 또는 LogicalTreeHelper.GetParent 메소드를 사용해 부모를 찾아갑니다. 
+        /// 이 과정을 최상위 부모를 만날 때까지 반복합니다.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static T FindAncestorOrSelf<T>(DependencyObject obj) where T : DependencyObject
+        {
+            while (obj != null)
+            {
+                if (obj is T)
+                {
+                    return (T)obj;
+                }
+
+                obj = VisualTreeHelper.GetParent(obj) ?? LogicalTreeHelper.GetParent(obj);
+            }
+
+            return null;
         }
         #endregion
         #region - IHanldes -
