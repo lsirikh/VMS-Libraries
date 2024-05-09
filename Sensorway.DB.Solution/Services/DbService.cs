@@ -31,8 +31,6 @@ namespace Sensorway.DB.Solution.Services
 
     internal class DbService : TaskService, IDbService
     {
-
-
         #region - Ctors -
         public DbService(ILogService log
                         , DbSetupModel setupModel
