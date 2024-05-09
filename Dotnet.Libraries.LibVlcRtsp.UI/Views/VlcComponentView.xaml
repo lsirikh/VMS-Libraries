@@ -8,6 +8,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-		<uc:VideoView MediaPlayer="{Binding MediaPlayer}" />
+		<Border BorderBrush="#88000000" BorderThickness="1"
+				CornerRadius="5">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<uc:VideoView Grid.Column="0" Grid.ColumnSpan="2" MediaPlayer="{Binding MediaPlayer}" />
+				<TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Top"/>
+			</Grid>
+		</Border>
 	</Grid>
 </UserControl>

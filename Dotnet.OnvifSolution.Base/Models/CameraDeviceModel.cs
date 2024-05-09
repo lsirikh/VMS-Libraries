@@ -3,6 +3,7 @@ using Dotnet.OnvifSolution.Base.Models.Dappers;
 using Dotnet.OnvifSolution.Base.Models.Extends;
 using Newtonsoft.Json;
 using Sensorway.Framework.Models.Defines;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
@@ -36,12 +37,13 @@ namespace Dotnet.OnvifSolution.Base.Models
             CameraMedia = new CameraMediaModel();
         }
 
-        public CameraDeviceModel(int id, string deviceName, CameraZoneModel zone, string userName, string password, string ipAddress, int port, int portOnvif, int portRtsp, bool rtspAuthRequrired, bool isDummy, string dummyOption, EnumCameraType type, EnumCameraStatus status, CameraMediaModel cameraMedia) 
+        public CameraDeviceModel(int id, string deviceName, CameraZoneModel zone, string userName, string password, string ipAddress, int port, int portOnvif, int portRtsp, bool rtspAuthRequrired, bool isDummy, string dummyOption, EnumCameraType type, EnumCameraStatus status, CameraMediaModel cameraMedia, DateTime update) 
             : base(id, deviceName, zone, userName, password, ipAddress, port, portOnvif, portRtsp, rtspAuthRequrired, isDummy, dummyOption)
         {
             Type = type;
             CameraStatus = status;
             CameraMedia = cameraMedia;
+            UpdateTime = update;
         }
 
         public CameraDeviceModel(ICameraDeviceModel model) : base(model)
@@ -55,6 +57,7 @@ namespace Dotnet.OnvifSolution.Base.Models
             Type = model.Type;
             CameraStatus = model.CameraStatus;
             CameraMedia = model.CameraMedia;
+            UpdateTime = model.UpdateTime;
         }
 
         public CameraDeviceModel(ICameraDeviceDapper model) : base(model.Id, model.DeviceName, zone:null, model.UserName, model.Password, model.IpAddress, model.Port, model.PortOnvif, model.PortRtsp, model.RtspAuthRequired, model.IsDummy, model.DummyOption)
@@ -68,6 +71,7 @@ namespace Dotnet.OnvifSolution.Base.Models
             Type = EnumCameraType.NONE;
             CameraStatus = EnumCameraStatus.NONE;
             CameraMedia = new CameraMediaModel();
+            UpdateTime = DateTime.Now;
         }
         #endregion
         #region - Implementation of Interface -
@@ -94,6 +98,7 @@ namespace Dotnet.OnvifSolution.Base.Models
             Type = model.Type;
             CameraStatus = model.CameraStatus;
             CameraMedia = model.CameraMedia;
+            UpdateTime = DateTime.Now;
         }
         #endregion
         #region - IHanldes -
@@ -143,6 +148,9 @@ namespace Dotnet.OnvifSolution.Base.Models
         /// </summary>
         [JsonProperty("camera_media", Order = 21)]
         public CameraMediaModel CameraMedia { get; set; }
+
+        [JsonProperty("update_time", Order = 22)]
+        public DateTime UpdateTime { get; set; }
         #endregion
         #region - Attributes -
         #endregion

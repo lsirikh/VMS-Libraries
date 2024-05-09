@@ -3,6 +3,7 @@ using Dotnet.OnvifSolution.Base.Models.Extends;
 using Newtonsoft.Json;
 using Sensorway.VMS.Messages.Enums;
 using Sensorway.VMS.Messages.Models.MediaServers;
+using System;
 using System.Collections.Generic;
 
 namespace Sensorway.VMS.Messages.Models.Devices
@@ -49,6 +50,7 @@ namespace Sensorway.VMS.Messages.Models.Devices
             base.Update(model);
             MediaServerStatus = model.MediaServerStatus;
             MediaServers = model.MediaServers;
+            UpdateTime = DateTime.Now;
         }
 
         /// <summary>

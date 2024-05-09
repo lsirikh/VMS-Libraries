@@ -8,9 +8,9 @@ namespace Dotnet.Redis.Models
 {
     public class RedisSetupModel
     {
-        public string PasswordRedis { get; set; }
         public string IpAddressRedis { get; set; }
         public int PortRedis { get; set; }
+        public string PasswordRedis { get; set; }
         public string NameChannel { get; set; }
     }
 }

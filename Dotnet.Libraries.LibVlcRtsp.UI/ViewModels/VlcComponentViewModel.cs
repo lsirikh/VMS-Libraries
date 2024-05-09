@@ -85,8 +85,7 @@ namespace Dotnet.Libraries.LibVlcRtsp.UI.ViewModels
 
 
         // 재생 메서드
-        public Task Play(string rtspUrl, string deviceName = default
-            , bool isRecording = false, string eventId = default
+        public Task Play(string rtspUrl, string deviceName = default, bool isRecording = false, string eventId = default
             , CancellationToken token = default)
         {
             return Task.Run(() =>
@@ -116,6 +115,22 @@ namespace Dotnet.Libraries.LibVlcRtsp.UI.ViewModels
                                 $",dst=std{{access=file,mux=mp4,dst={destination}}}" +
                                 // RTSP 스트리밍 설정
                                 //$",dst=rtp{{sdp=rtsp://127.0.0.1:554/}}" +
+                                //// 네트워크 캐시 사이즈
+                                //$",network-caching=500" +
+                                // DirectX Video Acceleration (DXVA) 2.0을 사용
+                                $",avcodec-hw=dxva2" +
+                                //
+                                $",avcodec-threads=1" +
+                                //$",avcodec-hw=vdpau" +
+                                //$",avcodec-hw=vaapi" +
+                                // 비디오 출력 모듈로 Direct3D 11을 사용합니다. GPU 가속을 활용하여 렌더링 성능을 향상
+                                $",vout=direct3d11" +
+                                //모든 비디오 필터를 비활성화
+                                $",video-filter=non" +
+                                // Direct3D 11 기반의 하드웨어 가속을 사용
+                                $",direct3d11-hw-dec" +
+                                //시스템 메모리를 사용하는 대신 Direct3D 디바이스를 통해 GPU 메모리를 사용
+                                $",directx-use-sysmem" +
                                 $"}}", ":sout-keep"
                             };
                         }
@@ -130,6 +145,22 @@ namespace Dotnet.Libraries.LibVlcRtsp.UI.ViewModels
                                 //$",dst=std{{access=file,mux=mp4,dst={destination}}}" +
                                 // RTSP 스트리밍 설정
                                 //$",dst=rtp{{sdp=rtsp://127.0.0.1:554/}}" +
+                                //// 네트워크 캐시 사이즈
+                                //$",network-caching=500" +
+                                // DirectX Video Acceleration (DXVA) 2.0을 사용
+                                $",avcodec-hw=dxva2" +
+                                //
+                                $",avcodec-threads=1" +
+                                //$",avcodec-hw=vdpau" +
+                                //$",avcodec-hw=vaapi" +
+                                // 비디오 출력 모듈로 Direct3D 11을 사용합니다. GPU 가속을 활용하여 렌더링 성능을 향상
+                                $",vout=direct3d11" +
+                                //모든 비디오 필터를 비활성화
+                                $",video-filter=non" +
+                                // Direct3D 11 기반의 하드웨어 가속을 사용
+                                $",direct3d11-hw-dec" +
+                                //시스템 메모리를 사용하는 대신 Direct3D 디바이스를 통해 GPU 메모리를 사용
+                                $",directx-use-sysmem" +
                                 $"}}",
                                 ":sout-keep"
                             };
@@ -140,6 +171,7 @@ namespace Dotnet.Libraries.LibVlcRtsp.UI.ViewModels
                             , options);
 
                         MediaPlayer.Play(_media);
+                        PreparingCompleted?.Invoke(this, null);
                     }
                 }
                 catch (TaskCanceledException ex)
@@ -197,12 +229,14 @@ namespace Dotnet.Libraries.LibVlcRtsp.UI.ViewModels
                 NotifyOfPropertyChange(nameof(Name));
             }
         }
-
+        public int? RowIndex { get; set; }
+        public int? ColumnIndex { get; set; }
         #endregion
         #region - Attributes -
         private VlcMediaPlayer _mediaPlayer;
         private Media _media;
         private string _name;
+        public event EventHandler PreparingCompleted;
         #endregion
     }
 }
