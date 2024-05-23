@@ -48,7 +48,7 @@ namespace Sensorway.Apis.MediaMTX.Modules
             builder.RegisterType<PathConfigProvider>().SingleInstance();
             builder.RegisterType<PathProvider>().SingleInstance();
 
-            _log?.Info($"{nameof(ApiModule)} is trying to create a single {nameof(MediaMTXService)} instance.");
+            _log?.Info($"{nameof(MediaMTXModule)} is trying to create a single {nameof(MediaMTXService)} instance.");
             builder.RegisterType<MediaMTXService>().AsImplementedInterfaces()
                 .SingleInstance().WithMetadata("Order", 3);
         }
