@@ -44,3 +44,19 @@
 4. D3d Source, C_Source는 C++라이브러리들을 모아놓은 폴더 구조이다.
 
 
+### ver1.4
+
+1. LogService의 기능을 변경하여, 로그 정보 시현 창에 줄 수 있는 이벤트를 구현.  
+2. Dotnet.OnvifSolution 일부 기능 추가/변경하여 예외 발생하는 상황을 최대한 완화 하기 위해서 조치하였다.  
+3. Dotnet.GstD3DStream.UI의 폐기 하였다. 추후 D3D 관련 라이브러리는 모두 제거될 예정이다.
+4. SimpleRTSP nuget 라이브러리를 기반으로 Streaming라이브러리를 구축하여 클라이언트 사이드에 적용하였다.  
+5. Sensorway.DB.Solution 에 Account 부분과 Event 부분이 추가 되었다.  
+6. Sensorway.Apis.TranscodingServer가 추가되어 TranscodingServer의 제어가 가능하게 되었다.  
+7. Sensorway.Api.Server가 추가되어 PIDS monitoring system과 연동이 가능해졌다.  
+8. Sensorway.Apis 를 업데이트 하여, 멀티 베이스라이브러리 시스템을 구축하였다. 즉 한개의 Base 라이브러리(Sensorway.Apis)가 다양한 API 서버에 베이스 라이브러리로 활용되어도 간섭과 중복 없이 적용할 수 있게 되었다.  
+9. Dotnet.ResourceMonitor가 업데이트 되어서 로그 창에서 다양한 이벤트 내역을 확인 할 수 있다. 또한, 각종 컴퓨터 자원의 상태를 실시간으로 확인이 가능해졌다.  
+10. 그 외 VMS Message와 관련된 사항들이 업데이트 되었다.   
+    첫 째, Account 부문의 업데이트    
+    둘 째, Event 부문의 업데이트  
+    셋 째, 그 외의 시스템적인 부분의 업데이트(예 트랜스 코딩 서버 파트와 통신 등)  
+11. Dotnet.Streaming.UI이 추가되었고, 클라이이언트의 메인 스트리밍 라이브러리로 적용되었다.  

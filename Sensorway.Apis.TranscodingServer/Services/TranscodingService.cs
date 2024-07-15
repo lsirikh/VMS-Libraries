@@ -8,6 +8,8 @@ using System.Net.Http;
 using System.Net;
 using Newtonsoft.Json;
 using Sensorway.Apis.TranscodingServer.Models.RequestModels;
+using Sensorway.Apis.TranscodingServer.Models;
+using Sensorway.Apis.TranscodingServer.Models.ResponseModels;
 
 namespace Sensorway.Apis.TranscodingServer.Services
 {
@@ -25,18 +27,22 @@ namespace Sensorway.Apis.TranscodingServer.Services
         public TranscodingService(ILogService log
                                 , IApiService apiService
                                 , MediaProvider mediaProvider
-                                , SessionProvider sessionProvider)
+                                , SessionProvider sessionProvider
+                                , ServerConfigModel configModel)
         {
             _log = log;
             _apiService = apiService;
             _mediaProvider = mediaProvider;
             _sessionProvider = sessionProvider;
+            _configModel = configModel;
         }
         #endregion
         #region - Implementation of Interface -
-        public Task ExecuteAsync(CancellationToken token = default)
+        public async Task ExecuteAsync(CancellationToken token = default)
         {
-            return Task.CompletedTask;
+            await processGetConfig();
+            await getSessionProvider();
+            await getMediaProvider();
         }
 
         public Task StopAsync(CancellationToken token = default)
@@ -81,6 +87,21 @@ namespace Sensorway.Apis.TranscodingServer.Services
             }
         }
 
+        public async Task<string> GetConfig(TaskCompletionSource<bool> tcs = null)
+        {
+            try
+            {
+                var url = $"get-config";
+                var response = await _apiService.GetRequest(url);
+                return await ResponseProcess(response, tcs);
+            }
+            catch (Exception ex)
+            {
+                tcs?.SetException(ex);
+                return null;
+            }
+        }
+
         public async Task<string> GetSession(TaskCompletionSource<bool> tcs = null)
         {
             try
@@ -111,6 +132,81 @@ namespace Sensorway.Apis.TranscodingServer.Services
             }
         }
 
+        private async Task processGetConfig()
+        {
+            try
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                var json = await GetConfig(tcs);
+                var result = await tcs.Task;
+                if (!result) throw new Exception(message: $"Fail to execute {nameof(processGetConfig)} in {nameof(TranscodingService)}");
+
+                if (json != null)
+                {
+                    var globalConfig = JsonConvert.DeserializeObject<ServerConfigModel>(json);
+                    _configModel.update(globalConfig);
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex.Message, true);
+            }
+
+        }
+
+        private async Task getSessionProvider()
+        {
+            try
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                var json = await GetSession(tcs);
+                var result = await tcs.Task;
+                _sessionProvider.Clear();
+                if (!result) throw new Exception(message: $"Fail to execute {nameof(getSessionProvider)} in {nameof(TranscodingService)}");
+
+                if (json != null)
+                {
+                    var response = JsonConvert.DeserializeObject<GetSessionResponse>(json);
+                    if (response.Result != "SUCCESS") return;
+                    
+                    foreach (var item in response.List)
+                    {
+                        _sessionProvider.Add(item);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex.Message, true);
+            }
+        }
+
+        private async Task getMediaProvider()
+        {
+            try
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                var json = await GetMedia(tcs);
+                var result = await tcs.Task;
+                _mediaProvider.Clear();
+                if (!result) throw new Exception(message: $"Fail to execute {nameof(getMediaProvider)} in {nameof(TranscodingService)}");
+
+                if (json != null)
+                {
+                    var response = JsonConvert.DeserializeObject<GetMediaResponse>(json);
+                    if (response.Result != "SUCCESS") return;
+
+                    foreach (var item in response.List)
+                    {
+                        _mediaProvider.Add(item);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex.Message, true);
+            }
+        }
 
         /// <summary>
         /// Reponse 기능 공통 처리 메소드 
@@ -146,7 +242,7 @@ namespace Sensorway.Apis.TranscodingServer.Services
 
                 return Task.FromResult(true);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Task.FromResult(false);
             }
@@ -211,6 +307,7 @@ namespace Sensorway.Apis.TranscodingServer.Services
         private IApiService _apiService;
         private MediaProvider _mediaProvider;
         private SessionProvider _sessionProvider;
+        private ServerConfigModel _configModel;
         #endregion
     }
 }

@@ -18,9 +18,9 @@ namespace Sensorway.Apis.TranscodingServer.Models
         public string SessionId { get; set; }
     }
 
-    public class RtspModel : IRtspModel
+    public class RtspModel : RtspIdModel, IRtspModel
     {
-        [JsonProperty("uri", Order = 1)]
+        [JsonProperty("url", Order = 2)]
         public string Uri { get; set; }
     }
 }

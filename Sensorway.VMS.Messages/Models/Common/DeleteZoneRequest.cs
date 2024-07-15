@@ -1,5 +1,6 @@
 ﻿using Dotnet.OnvifSolution.Base.Models.Extends;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Sensorway.VMS.Messages.Enums;
 using Sensorway.VMS.Messages.Models.Base;
 
@@ -22,10 +23,12 @@ namespace Sensorway.VMS.Messages.Models.Common
         {
         }
 
-        public DeleteZoneRequest(CameraZoneModel model = default)
+        public DeleteZoneRequest(CameraZoneModel model = default
+                                , string token = default)
                                 : base(null, EnumType.REQUEST, EnumCommand.REQUEST_DELETE_ZONE)
         {
             Body = model;
+            Token = token;
         }
         #endregion
         #region - Implementation of Interface -
@@ -41,6 +44,8 @@ namespace Sensorway.VMS.Messages.Models.Common
         #region - Properties -
         [JsonProperty("body", Order = 3)]
         public CameraZoneModel Body { get; set; }
+        [JsonProperty("token", Order = 4)]
+        public string Token { get; set; }
         #endregion
         #region - Attributes -
         #endregion

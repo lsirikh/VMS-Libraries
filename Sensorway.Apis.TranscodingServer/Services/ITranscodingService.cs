@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Sensorway.Apis.TranscodingServer.Services
 {
-    internal interface ITranscodingService : IService
+    public interface ITranscodingService : IService
     {
         Task<string> GetMedia(TaskCompletionSource<bool> tcs = null);
         Task<string> GetSession(TaskCompletionSource<bool> tcs = null);

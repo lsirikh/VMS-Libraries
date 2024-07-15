@@ -54,10 +54,10 @@ namespace Sensorway.Apis.MediaMTX.Models
         public string RecordPartDuration { get; set; } = "100ms";
 
         [JsonProperty("recordSegmentDuration", Order = 14)] 
-        public string RecordSegmentDuration { get; set; } = "1h0m0s";
+        public string RecordSegmentDuration { get; set; } = "15m0s";
 
         [JsonProperty("recordDeleteAfter", Order = 15)]
-        public string RecordDeleteAfter { get; set; } = "24h0m0s";
+        public string RecordDeleteAfter { get; set; } = "6h0m0s";
 
         [JsonProperty("publishUser", Order = 16)]
         public string PublishUser { get; set; }

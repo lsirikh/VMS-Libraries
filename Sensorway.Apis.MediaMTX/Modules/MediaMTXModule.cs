@@ -5,6 +5,7 @@ using Sensorway.Apis.MediaMTX.Providers;
 using Sensorway.Apis.MediaMTX.Services;
 using Sensorway.Apis.Models;
 using Sensorway.Apis.Modules;
+using Sensorway.Apis.Services;
 
 namespace Sensorway.Apis.MediaMTX.Modules
 {
@@ -28,6 +29,7 @@ namespace Sensorway.Apis.MediaMTX.Modules
 
         public MediaMTXModule(ILogService log, MediaMTXSetup setup)
         {
+            _log = log;
             _setup = setup;
         }
         #endregion
@@ -36,21 +38,27 @@ namespace Sensorway.Apis.MediaMTX.Modules
         #region - Overrides -
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterModule(new ApiModule(_log
-                , new ApiSetupModel() 
-                    {
-                        IpAddress = _setup.IpAddress,
-                        Port = _setup.Port,
-                        Username = _setup.Username,
-                        Password = _setup.Password,
-                    }));
+
+            builder.RegisterModule(new ApiModule(_log, new ApiSetupModel
+            {
+                IpAddress = _setup.IpAddress,
+                Port = _setup.Port,
+                Username = _setup.Username,
+                Password = _setup.Password,
+            }, "MediaMTX"));
+
             builder.RegisterType<GlobalConfigurationModel>().SingleInstance();
             builder.RegisterType<PathConfigProvider>().SingleInstance();
             builder.RegisterType<PathProvider>().SingleInstance();
 
             _log?.Info($"{nameof(MediaMTXModule)} is trying to create a single {nameof(MediaMTXService)} instance.");
-            builder.RegisterType<MediaMTXService>().AsImplementedInterfaces()
-                .SingleInstance().WithMetadata("Order", 3);
+            builder.Register(build => new MediaMTXService(
+                _log,
+                build.ResolveNamed<IApiService>("MediaMTX"),
+                build.Resolve<PathConfigProvider>(),
+                build.Resolve<PathProvider>(),
+                build.Resolve<GlobalConfigurationModel>()
+            )).AsImplementedInterfaces().SingleInstance().WithMetadata("Order", 3);
         }
         #endregion
         #region - Binding Methods -

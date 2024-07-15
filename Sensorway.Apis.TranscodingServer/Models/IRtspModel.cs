@@ -1,6 +1,6 @@
 ﻿namespace Sensorway.Apis.TranscodingServer.Models
 {
-    public interface IRtspModel
+    public interface IRtspModel : IRtspIdModel
     {
         string Uri { get; set; }
     }

@@ -23,8 +23,7 @@ namespace Sensorway.VMS.Messages.Models.Communications.Presets
         {
         }
 
-        public SetPresetResponse(
-                                    List<PTZPresetModel> presets = default,
+        public SetPresetResponse( List<PTZPresetModel> presets = default,
                                     SetPresetRequest requestMessage = default,
                                     bool isSuccess = true,
                                     string message = null)

@@ -29,7 +29,7 @@ namespace DotNet.ResourceMonitor.Modules
         {
             try
             {
-                builder.RegisterType<ResourceMonitorService>().AsImplementedInterfaces().SingleInstance().WithMetadata("Order", 4);
+                builder.RegisterType<ResourceMonitorService>().AsImplementedInterfaces().SingleInstance().WithMetadata("Order", 5);
             }
             catch
             {

@@ -19,6 +19,8 @@ namespace Dotnet.OnvifSolution.Services
         Task<bool> SetPTZPreset(PTZClient ptzClient, string profileToken, string presetName, string presetToken);
         Task<bool> DeletePTZPreset(PTZClient ptzClient, string profileToken, string presetToken);
         Task<bool> GoPTZPreset(PTZClient ptzClient, PTZSpeedModel pTZSpeed, string profileToken, string presetToken);
+        Task<bool> SetHomePreset(PTZClient ptzClient, string profileToken);
+        Task<bool> GoHomePreset(PTZClient ptzClient, PTZSpeedModel pTZSpeed, string profileToken);
         Task<bool> MovePTZ(PTZClient ptzClient, PTZSpeedModel pTZ_Velocity, string profileToken, CancellationToken token = default, string timeout = null);
         Task<bool> MovePTZ(PTZClient ptzClient, PTZSpeedModel pTZ_Velocity, string profileToken, string timeout = null);
         Task<bool> MoveImaging(ImagingPortClient imagingPortClient, string vsourceToken, FocusMoveModel focusMove, CancellationToken token = default);

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace Dotnet.Redis.Services
@@ -82,6 +83,7 @@ namespace Dotnet.Redis.Services
                 throw ex;
             }
         }
+      
         #endregion
         #region - Binding Methods -
         #endregion
@@ -93,7 +95,7 @@ namespace Dotnet.Redis.Services
         public string Channel => _channelName;
         #endregion
         #region - Attributes -
-        
+
         #endregion
     }
 }

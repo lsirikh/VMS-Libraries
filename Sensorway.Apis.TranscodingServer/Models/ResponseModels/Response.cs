@@ -14,9 +14,17 @@ namespace Sensorway.Apis.TranscodingServer.Models.ResponseModels
     ****************************************************************************/
     public class RegisterRtspResponse : BaseResponse, IRegisterRtspResponse
     {
-        public RegisterRtspResponse(string message, string result) : base(message, result)
+        public RegisterRtspResponse(string message, string result, int count, List<MediaModel> lists) : base(message, result)
         {
+            List = lists;
+            Count = count;
         }
+
+        [JsonProperty("list", Order = 3)]
+        public List<MediaModel> List { get; set; }
+
+        [JsonProperty("count", Order = 4)]
+        public int Count { get; set; }
     }
 
     public class UnregisterRtspResponse : BaseResponse, IUnregisterRtspResponse

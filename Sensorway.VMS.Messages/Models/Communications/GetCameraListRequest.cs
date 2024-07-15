@@ -1,4 +1,6 @@
 ﻿using Dotnet.OnvifSolution.Base.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Sensorway.VMS.Messages.Enums;
 using Sensorway.VMS.Messages.Models.Base;
 using System;
@@ -24,6 +26,10 @@ namespace Sensorway.VMS.Messages.Models.Communications
         public GetCameraListRequest() : base(null, EnumType.REQUEST, EnumCommand.REQUEST_CAMERA_LIST)
         {
         }
+        public GetCameraListRequest(string token = default) : base(null, EnumType.REQUEST, EnumCommand.REQUEST_CAMERA_LIST)
+        {
+            Token = token;
+        }
         #endregion
         #region - Implementation of Interface -
         #endregion
@@ -36,6 +42,8 @@ namespace Sensorway.VMS.Messages.Models.Communications
         #region - IHanldes -
         #endregion
         #region - Properties -
+        [JsonProperty("token", Order = 3)]
+        public string Token { get; set; }
         #endregion
         #region - Attributes -
         #endregion

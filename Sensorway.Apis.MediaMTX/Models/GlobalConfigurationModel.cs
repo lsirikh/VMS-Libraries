@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Sensorway.Apis.MediaMTX.Models
@@ -16,6 +17,11 @@ namespace Sensorway.Apis.MediaMTX.Models
     {
         public void update(GlobalConfigurationModel model)
         {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
             LogLevel = model.LogLevel;
             LogDestinations = new List<string>(model.LogDestinations);
             LogFile = model.LogFile;

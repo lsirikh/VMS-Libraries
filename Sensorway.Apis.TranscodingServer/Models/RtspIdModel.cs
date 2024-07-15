@@ -13,11 +13,6 @@ namespace Sensorway.Apis.TranscodingServer.Models
     ****************************************************************************/
     public class RtspIdModel : IRtspIdModel
     {
-        public RtspIdModel(string id)
-        {
-            Id = id;
-        }
-
         [JsonProperty("id", Order = 1)]
         public string Id { get; set; }
     }

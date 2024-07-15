@@ -2,6 +2,7 @@
 using Dotnet.Libraries.Base;
 using Sensorway.Apis.Models;
 using Sensorway.Apis.Modules;
+using Sensorway.Apis.Services;
 using Sensorway.Apis.TranscodingServer.Models;
 using Sensorway.Apis.TranscodingServer.Providers;
 using Sensorway.Apis.TranscodingServer.Services;
@@ -28,6 +29,7 @@ namespace Sensorway.Apis.TranscodingServer.Modules
 
         public TranscodingModule(ILogService log, TranscodingSetupModel setup)
         {
+            _log = log;
             _setup = setup;
         }
         #endregion
@@ -36,20 +38,27 @@ namespace Sensorway.Apis.TranscodingServer.Modules
         #region - Overrides -
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterModule(new ApiModule(_log
-                , new ApiSetupModel()
-                {
-                    IpAddress = _setup.IpAddress,
-                    Port = _setup.Port,
-                    Username = _setup.Username,
-                    Password = _setup.Password,
-                }));
+
+            builder.RegisterModule(new ApiModule(_log, new ApiSetupModel
+            {
+                IpAddress = _setup.IpAddress,
+                Port = _setup.Port,
+                Username = _setup.Username,
+                Password = _setup.Password,
+            }, "Transcoding"));
+
             builder.RegisterType<MediaProvider>().SingleInstance();
             builder.RegisterType<SessionProvider>().SingleInstance();
+            builder.RegisterType<ServerConfigModel>().SingleInstance();
 
             _log?.Info($"{nameof(TranscodingModule)} is trying to create a single {nameof(TranscodingService)} instance.");
-            builder.RegisterType<TranscodingService>().AsImplementedInterfaces()
-                .SingleInstance().WithMetadata("Order", 3);
+            builder.Register(build => new TranscodingService(
+            _log,
+            build.ResolveNamed<IApiService>("Transcoding"),
+            build.Resolve<MediaProvider>(),
+            build.Resolve<SessionProvider>(),
+            build.Resolve<ServerConfigModel>()
+        )).AsImplementedInterfaces().SingleInstance().WithMetadata("Order", 4);
         }
         #endregion
         #region - Binding Methods -
