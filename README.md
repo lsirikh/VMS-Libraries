@@ -8,23 +8,37 @@
 ### Branch : main  
 ### Last Updated : 2024-03-06
 
-### Versions  
+### Libraries  
 
+* C_Source
+* D3d Source
+* Dotnet.GstD3DStream.UI
+* Dotnet.Gstreamer.Transcoding
 * Dotnet.Libraries.Base
 * Dotnet.Libraries.Enums
+* Dotnet.Libraries.LibVlcRtsp.UI
 * Dotnet.Libraries.Utils
 * Dotnet.OnvifSolution
 * Dotnet.OnvifSolution.Base
 * Dotnet.OnvifSolution.Collection
 * Dotnet.Redis
 * DotNet.ResourceMonitor
-* Sensorway.Apis
-* Sensorway.Apis.MediaMTX
-* Sensorway.DB.Solution
-* Sensorway.Framework
-* Sensorway.Framework.Models
-* Sensorway.Framework.ViewBase
-* Sensorway.VMS.Messages 
+* Dotnet.RtspSharp
+* Dotnet.Streaming.UI
+* Gst-Sharp
+* Sensoryway.Accounts.Base
+* Sensoryway.Accounts.Collection
+* Sensoryway.Api.Server
+* Sensoryway.Apis
+* Sensoryway.Apis.MediaMTX
+* Sensoryway.Apis.TranscodingServer
+* Sensoryway.DB.Solution
+* Sensoryway.Events.Base
+* Sensoryway.Events.Collection
+* Sensoryway.Framework
+* Sensoryway.Framework.Models
+* Sensoryway.Framework.ViewBase
+* Sensoryway.VMS.Messages
 
 
 ### ver1.3
