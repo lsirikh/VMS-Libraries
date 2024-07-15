@@ -189,7 +189,7 @@ namespace DotNet.ResourceMonitor.Services
             }
         }
 
-        private Task CounterInialize()
+        private async Task CounterInialize()
         {
 
             try
@@ -220,40 +220,52 @@ namespace DotNet.ResourceMonitor.Services
                 // 사용 가능한 메모리를 측정하기 위한 카운터 초기화
                 Performance.RamCounter = new PerformanceCounter("Memory", "Available MBytes");
 
-                Performance.GpuCounter = GetGPUCounters();
+                Performance.GpuCounter = await GetGPUCounters();
             }
             catch (Exception ex)
             {
                 _log.Error($"Raised Exception in {nameof(CounterInialize)} of {nameof(ResourceMonitorService)} : {ex.Message}");
             }
-            return Task.CompletedTask;
+            
         }
 
-        public List<PerformanceCounter> GetGPUCounters()
+        public Task<List<PerformanceCounter>> GetGPUCounters()
         {
-            var category = new PerformanceCounterCategory("GPU Engine");
-            var counterNames = category.GetInstanceNames();
-            _log.Info($"PerformanceCounterCategory for GPU Engine was initialized!");
+            return Task.Run(() => 
+            {
+                try
+                {
+                    var category = new PerformanceCounterCategory("GPU Engine");
+                    var counterNames = category.GetInstanceNames();
+                    _log.Info($"PerformanceCounterCategory for GPU Engine was initialized!");
 
-            var isVideoDecode = counterNames.Any(counterName => counterName.EndsWith("engtype_VideoDecode"));
-            var isVideoEncode = counterNames.Any(counterName => counterName.EndsWith("engtype_VideoEncode"));
-            var isCompute = counterNames.Any(counterName => counterName.EndsWith("engtype_Compute"));
-            var isCopy = counterNames.Any(counterName => counterName.EndsWith("engtype_Copy"));
-            var is3D = counterNames.Any(counterName => counterName.EndsWith("engtype_3D"));
-            _log.Info($"engtype_VideoDecode : {isVideoDecode}, engtype_VideoEncode : {isVideoEncode}, engtype_Compute : {isCompute}, engtype_Copy : {isCopy}, engtype_3D : {is3D}");
+                    var isVideoDecode = counterNames.Any(counterName => counterName.EndsWith("engtype_VideoDecode"));
+                    var isVideoEncode = counterNames.Any(counterName => counterName.EndsWith("engtype_VideoEncode"));
+                    var isCompute = counterNames.Any(counterName => counterName.EndsWith("engtype_Compute"));
+                    var isCopy = counterNames.Any(counterName => counterName.EndsWith("engtype_Copy"));
+                    var is3D = counterNames.Any(counterName => counterName.EndsWith("engtype_3D"));
+                    _log.Info($"engtype_VideoDecode : {isVideoDecode}, engtype_VideoEncode : {isVideoEncode}, engtype_Compute : {isCompute}, engtype_Copy : {isCopy}, engtype_3D : {is3D}");
 
-            var gpuCounters = counterNames
-                                .Where(counterName =>
-                                    (isVideoDecode && counterName.EndsWith("engtype_VideoDecode")) ||
-                                    (isVideoEncode && counterName.EndsWith("engtype_VideoEncode")) ||
-                                    (isCompute && counterName.EndsWith("engtype_Compute")) ||
-                                    (isCopy && counterName.EndsWith("engtype_Copy")) ||
-                                    (is3D && counterName.EndsWith("engtype_3D"))
-                                )
-                                .SelectMany(counterName => category.GetCounters(counterName))
-                                .Where(counter => counter.CounterName.Equals("Utilization Percentage"))
-                                .ToList();
-            return gpuCounters;
+                    var gpuCounters = counterNames
+                                        .Where(counterName =>
+                                            (isVideoDecode && counterName.EndsWith("engtype_VideoDecode")) ||
+                                            (isVideoEncode && counterName.EndsWith("engtype_VideoEncode")) ||
+                                            (isCompute && counterName.EndsWith("engtype_Compute")) ||
+                                            (isCopy && counterName.EndsWith("engtype_Copy")) ||
+                                            (is3D && counterName.EndsWith("engtype_3D"))
+                                        )
+                                        .SelectMany(counterName => category.GetCounters(counterName))
+                                        .Where(counter => counter.CounterName.Equals("Utilization Percentage"))
+                                        .ToList();
+                    return gpuCounters;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            });
+            
         }
         #endregion
         #region - Overrides -
@@ -322,10 +334,10 @@ namespace DotNet.ResourceMonitor.Services
 
                 return Task.FromResult(sum);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Performance.GpuCounter = GetGPUCounters();
-                _log.Error($"Raised Exception in {nameof(GetBoardGpuUsage)} of {nameof(ResourceMonitorService)} : {ex.Message}");
+                //Performance.GpuCounter = await GetGPUCounters();
+                //_log.Error($"Raised Exception in {nameof(GetBoardGpuUsage)} of {nameof(ResourceMonitorService)} : {ex.Message}");
                 return Task.FromResult(sum);
             }
         }
@@ -373,9 +385,9 @@ namespace DotNet.ResourceMonitor.Services
                     return gpus;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _log.Error($"Raised Exception in {nameof(GetGpus)} of {nameof(ResourceMonitorService)} : {ex.Message}");
+                //_log.Error($"Raised Exception in {nameof(GetGpus)} of {nameof(ResourceMonitorService)} : {ex.Message}");
                 return null;
             }
         }

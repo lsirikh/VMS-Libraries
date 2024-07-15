@@ -24,12 +24,15 @@ namespace Sensorway.VMS.Messages.Models.Communications.Presets
 
         public SetPresetRequest(string deviceName = null
                                 , string presetName = null
-                                , string presetToken = null)
+                                , string presetToken = null
+                                , string token = default)
                                 : base(null, EnumType.REQUEST, EnumCommand.REQUEST_SET_PRESET)
         {
             DeviceName = deviceName;
             PresetName = presetName;
             PresetToken = presetToken;
+
+            Token = token;
         }
         #endregion
         #region - Implementation of Interface -
@@ -43,12 +46,14 @@ namespace Sensorway.VMS.Messages.Models.Communications.Presets
         #region - IHanldes -
         #endregion
         #region - Properties -
-        [JsonProperty("device_name", Order = 5)]
+        [JsonProperty("device_name", Order = 3)]
         public string DeviceName { get; set; }
-        [JsonProperty("preset_name", Order = 6)]
+        [JsonProperty("preset_name", Order = 4)]
         public string PresetName { get; set; }
-        [JsonProperty("preset_token", Order = 7)]
+        [JsonProperty("preset_token", Order = 5)]
         public string PresetToken { get; set; }
+        [JsonProperty("token", Order = 6)]
+        public string Token { get; set; }
         #endregion
         #region - Attributes -
         #endregion

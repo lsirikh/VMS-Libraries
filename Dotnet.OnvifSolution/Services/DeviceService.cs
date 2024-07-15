@@ -53,14 +53,24 @@ namespace Dotnet.OnvifSolution.Services
         #region - Processes -
         public async Task<CameraOnvifModel> InitializePreparing(IConnectionModel connectionModel)
         {
+
             try
             {
-                //_log.Info($">>>>InitializePreparing : {connectionModel.DeviceName}");
-
                 if (connectionModel == null) throw new ArgumentNullException(nameof(connectionModel));
+            }
+            catch (Exception ex)
+            {
+                _log?.Error($"Raised Exception in {nameof(InitializePreparing)} of {nameof(DeviceService)} : {ex.Message}");
+                return null;
+            }
 
-                var onvifModel = new CameraOnvifModel(connectionModel);
-                var onvifConnection = new OnvifConnectionModel(connectionModel);
+            OnvifConnectionModel onvifConnection = null;
+            CameraOnvifModel onvifModel = null;
+
+            try
+            {
+                onvifConnection = new OnvifConnectionModel(connectionModel);
+                onvifModel = new CameraOnvifModel(connectionModel);
 
                 onvifModel.DeviceClient = await ServiceFactory.CreateDeviceClientAsync(onvifConnection);
 
@@ -81,8 +91,9 @@ namespace Dotnet.OnvifSolution.Services
             }
             catch (Exception ex)
             {
+                onvifModel.CameraStatus = EnumCameraStatus.NOT_AVAILABLE;
                 _log?.Error($"Raised Exception in {nameof(InitializePreparing)} of {nameof(DeviceService)} : {ex.Message}");
-                return null;
+                return onvifModel;
             }
         }
 
@@ -91,10 +102,21 @@ namespace Dotnet.OnvifSolution.Services
             try
             {
                 if (cameraModel == null) throw new ArgumentNullException(nameof(cameraModel));
+            }
+            catch (Exception ex)
+            {
+                _log?.Error($"Raised Exception in {nameof(InitializePreparing)} of {nameof(DeviceService)} : {ex.Message}");
+                return null;
+            }
 
-                var onvifConnection = new OnvifConnectionModel(cameraModel);
+            OnvifConnectionModel onvifConnection = null;
+            CameraOnvifModel onvifModel = null;
 
-                var onvifModel = new CameraOnvifModel(cameraModel);
+            try
+            {
+                onvifConnection = new OnvifConnectionModel(cameraModel);
+                onvifModel = new CameraOnvifModel(cameraModel);
+
                 onvifModel.DeviceClient = await ServiceFactory.CreateDeviceClientAsync(onvifConnection);
 
                 if (onvifModel.DeviceClient == null) throw new Exception($"deviceClient was not created. Please check [Uri : {onvifConnection.Host}, Id : {onvifConnection.Username}, Pass: {onvifConnection.Password}]!");
@@ -104,8 +126,9 @@ namespace Dotnet.OnvifSolution.Services
             }
             catch (Exception ex)
             {
+                onvifModel.CameraStatus = EnumCameraStatus.NOT_AVAILABLE;
                 _log?.Error($"Raised Exception in {nameof(InitializePreparing)} of {nameof(DeviceService)} : {ex.Message}");
-                return null;
+                return onvifModel;
             }
         }
 
@@ -125,7 +148,9 @@ namespace Dotnet.OnvifSolution.Services
             var onvifConnection = new OnvifConnectionModel(connectionModel);
 
             var onvifModel = await InitializePreparing(connectionModel);
-
+            await Task.Delay(500);
+            if (onvifModel.CameraStatus == EnumCameraStatus.NOT_AVAILABLE)
+                return onvifModel;
             return await GenerateOnvifModel(onvifModel, onvifConnection);
         }
 
@@ -143,6 +168,8 @@ namespace Dotnet.OnvifSolution.Services
             var onvifConnection = new OnvifConnectionModel(cameraModel);
 
             var onvifModel = await InitializePreparing(cameraModel);
+            if(onvifModel.CameraStatus == EnumCameraStatus.NOT_AVAILABLE)
+                return onvifModel;
 
             return await GenerateOnvifModel(onvifModel, onvifConnection);
         }
@@ -155,6 +182,7 @@ namespace Dotnet.OnvifSolution.Services
             {
                 onvifModel.Type = EnumCameraType.FIXED_CAMERA;
                 onvifModel.PtzClient = await ServiceFactory.CreatePTZClientAsync(onvifConnection);
+                await Task.Delay(10);
                 if (onvifModel.PtzClient == null) throw new NullReferenceException($"Ptz was not created. {errorMsg}");
                 onvifModel.IsPtzPossible = true;
                 onvifModel.Type = EnumCameraType.PTZ_CAMERA;
@@ -166,12 +194,14 @@ namespace Dotnet.OnvifSolution.Services
             }  
             catch (Exception ex)
             {
-                _log?.Error($"Raised Exception in {nameof(GenerateOnvifModel)} of {nameof(DeviceService)} : {ex.Message}");
+                //_log?.Error($"Raised Exception in {nameof(GenerateOnvifModel)} of {nameof(DeviceService)} : {ex.Message}");
             }
 
+            
             try
             {
                 onvifModel.ImagingClient = await ServiceFactory.CreateImagingClientAsync(onvifConnection);
+                await Task.Delay(10);
                 if (onvifModel.ImagingClient == null) throw new NullReferenceException($"Imaging was not created. {errorMsg}");
                 onvifModel.IsImagingPossible = true;
             }
@@ -181,12 +211,13 @@ namespace Dotnet.OnvifSolution.Services
             }
             catch (Exception ex)
             {
-                _log?.Error($"Raised Exception in {nameof(GenerateOnvifModel)} of {nameof(DeviceService)} : {ex.Message}");
+                //_log?.Error($"Raised Exception in {nameof(GenerateOnvifModel)} of {nameof(DeviceService)} : {ex.Message}");
             }
-
+            
             try
             {
                 onvifModel.MediaClient = await ServiceFactory.CreateMediaClientAsync(onvifConnection);
+                await Task.Delay(10);
                 if (onvifModel.MediaClient == null) throw new NullReferenceException($"Media was not created. {errorMsg}");
                 onvifModel.IsMediaPossible = true;
             }
@@ -197,11 +228,13 @@ namespace Dotnet.OnvifSolution.Services
             }
             catch (Exception ex)
             {
-                _log?.Error($"Raised Exception in {nameof(GenerateOnvifModel)} of {nameof(DeviceService)} : {ex.Message}");
+                //_log?.Error($"Raised Exception in {nameof(GenerateOnvifModel)} of {nameof(DeviceService)} : {ex.Message}");
                 return null;
             }
+            
 
             onvifModel.Profiles = (await onvifModel.MediaClient?.GetProfilesAsync())?.Profiles?.ToList();
+            await Task.Delay(10);
             //_log.Info($">>>>{onvifModel.DeviceName} GetProfilesAsync  : {onvifModel.Profiles.Count()}");
             onvifModel.CameraMedia.Token = onvifModel.Profiles?.FirstOrDefault()?.token;
 
@@ -218,7 +251,7 @@ namespace Dotnet.OnvifSolution.Services
 
                     //Profile Streaming URL
                     cameraProfile = await GetProfileStreamUrl(cameraProfile, profile.token, onvifModel);
-
+                    await Task.Delay(10);
 
                     //VideoSourceConfiguration
                     if (profile?.VideoSourceConfiguration != null)
@@ -238,6 +271,7 @@ namespace Dotnet.OnvifSolution.Services
                         cameraProfile.VideoSourceConfig.Token = profile?.VideoSourceConfiguration?.SourceToken;
 
                         cameraProfile = await GetVideoSource(cameraProfile, onvifModel);
+                        await Task.Delay(50);
                     }
 
                     //AudioSourceConfiguration
@@ -250,6 +284,7 @@ namespace Dotnet.OnvifSolution.Services
                         cameraProfile.AudioSourceConfig.UseCount = (int)profile.AudioSourceConfiguration?.UseCount;
 
                         cameraProfile = await GetAudioSource(cameraProfile, onvifModel);
+                        await Task.Delay(10);
                     }
 
 
@@ -263,7 +298,7 @@ namespace Dotnet.OnvifSolution.Services
                     cameraProfile = GetMetadataConfig(cameraProfile, profile.MetadataConfiguration);
                     //PTZConfiguration
                     cameraProfile = await GetPTZConfig(cameraProfile, onvifModel);
-                    
+                    await Task.Delay(10);
                     //Add Profile to Profiles in the CameraMedia instance.
                     onvifModel.CameraMedia.Profiles.Add(cameraProfile);
                 }
@@ -271,6 +306,18 @@ namespace Dotnet.OnvifSolution.Services
                 {
                 }
             }
+
+            try
+            {
+                if (onvifModel.Type == EnumCameraType.PTZ_CAMERA)
+                {
+                    await GetPTZPreset(onvifModel.CameraMedia, onvifModel.PtzClient, onvifModel.CameraMedia.Token);
+                }
+            }
+            catch 
+            {
+            }
+
             onvifModel.CameraStatus = EnumCameraStatus.AVAILABLE;
 
             return onvifModel;
@@ -845,7 +892,7 @@ namespace Dotnet.OnvifSolution.Services
                     preset.PTZPosition.Zoom = zoom;
                     model.PTZPresets.Add(preset);
 
-                    _log?.Info($"Name : {item.Name}, Preset Token : {item.token}, PanTilt : ({item.PTZPosition.PanTilt.x},{item.PTZPosition.PanTilt.y}), Zoom : {item.PTZPosition.Zoom.x}");
+                    //_log?.Info($"Name : {item.Name}, Preset Token : {item.token}, PanTilt : ({item.PTZPosition.PanTilt.x},{item.PTZPosition.PanTilt.y}), Zoom : {item.PTZPosition.Zoom.x}");
                 }
                 return true;
             }
@@ -901,6 +948,35 @@ namespace Dotnet.OnvifSolution.Services
             catch (Exception ex)
             {
                 _log?.Error($"Raised Exception in {nameof(DeletePTZPreset)} of {nameof(DeviceService)} : {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> SetHomePreset(PTZClient ptzClient, string profileToken)
+        {
+            try
+            {
+                await ptzClient.SetHomePositionAsync(profileToken);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _log?.Error($"Raised Exception in {nameof(SetHomePreset)} of {nameof(DeviceService)} : {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> GoHomePreset(PTZClient ptzClient, PTZSpeedModel pTZSpeed, string profileToken)
+        {
+            try
+            {
+                var ptzSpeed = GetPTZSpeedInstance(pTZSpeed);
+                await ptzClient.GotoHomePositionAsync(profileToken, ptzSpeed);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _log?.Error($"Raised Exception in {nameof(GoHomePreset)} of {nameof(DeviceService)} : {ex.Message}");
                 return false;
             }
         }

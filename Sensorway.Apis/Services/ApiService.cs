@@ -65,7 +65,7 @@ namespace Sensorway.Apis.Services
                     using (HttpClient client = new HttpClient(handler))
                     {
                         // 3초 타임아웃 설정
-                        client.Timeout = TimeSpan.FromSeconds(3);
+                        client.Timeout = TimeSpan.FromSeconds(TIMEOUT);
 
                         try
                         {
@@ -88,13 +88,13 @@ namespace Sensorway.Apis.Services
                         {
                             // 연결 실패 또는 다른 HTTP 요청 오류 처리
                             //_log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(GetRequest)} of {nameof(ApiService)} : {ex}", true);
-                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.ToString() };
+                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                         catch (TaskCanceledException ex)
                         {
                             // 타임아웃 처리
                             //_log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(GetRequest)} of {nameof(ApiService)} : {ex}", true);
-                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.ToString() };
+                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                     }
                 }
@@ -122,7 +122,7 @@ namespace Sensorway.Apis.Services
                     using (HttpClient client = new HttpClient(handler))
                     {
                         // 타임 아웃 설정
-                        client.Timeout = TimeSpan.FromSeconds(5);
+                        client.Timeout = TimeSpan.FromSeconds(TIMEOUT);
                         try
                         {
                             // POST 요청 URL 구성
@@ -137,14 +137,14 @@ namespace Sensorway.Apis.Services
                         {
                             // 연결 실패 또는 다른 HTTP 요청 오류 처리
                             //_log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(PostRequest)} of {nameof(ApiService)} : {ex}");
-                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.ToString() };
+                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
 
                         }
                         catch (TaskCanceledException ex)
                         {
                             // 타임아웃 처리
                             //_log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(PostRequest)} of {nameof(ApiService)} : {ex}");
-                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.ToString() };
+                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                     }
                 }
@@ -170,7 +170,7 @@ namespace Sensorway.Apis.Services
                     using (HttpClient client = new HttpClient(handler))
                     {
                         // 3초 타임아웃 설정
-                        client.Timeout = TimeSpan.FromSeconds(3);
+                        client.Timeout = TimeSpan.FromSeconds(TIMEOUT);
 
                         try
                         {
@@ -185,13 +185,13 @@ namespace Sensorway.Apis.Services
                         {
                             // 연결 실패 또는 다른 HTTP 요청 오류 처리
                             //_log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(DeleteRequest)} of {nameof(ApiService)} : {ex}", true);
-                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.ToString() };
+                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                         catch (TaskCanceledException ex)
                         {
                             // 타임아웃 처리
                             //_log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(DeleteRequest)} of {nameof(ApiService)} : {ex}", true);
-                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.ToString() };
+                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                     }
                 }
@@ -217,7 +217,7 @@ namespace Sensorway.Apis.Services
                     using (HttpClient client = new HttpClient(handler))
                     {
                         // 3초 타임아웃 설정
-                        client.Timeout = TimeSpan.FromSeconds(3);
+                        client.Timeout = TimeSpan.FromSeconds(TIMEOUT);
 
                         try
                         {
@@ -237,13 +237,13 @@ namespace Sensorway.Apis.Services
                         {
                             // 연결 실패 또는 다른 HTTP 요청 오류 처리
                             //_log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(PatchRequest)} of {nameof(ApiService)} : {ex}", true);
-                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.ToString()};
+                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                         catch (TaskCanceledException ex)
                         {
                             // 타임아웃 처리
                             //_log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(PatchRequest)} of {nameof(ApiService)} : {ex}", true);
-                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.ToString() };
+                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                     }
                 }
@@ -285,13 +285,13 @@ namespace Sensorway.Apis.Services
                         {
                             // 연결 실패 또는 다른 HTTP 요청 오류 처리
                             //_log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(PutRequest)} of {nameof(ApiService)} : {ex}", true);
-                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.ToString() };
+                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                         catch (TaskCanceledException ex)
                         {
                             // 타임아웃 처리
                             //_log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(PutRequest)} of {nameof(ApiService)} : {ex}", true);
-                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.ToString() };
+                            return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                     }
                 }
@@ -310,6 +310,7 @@ namespace Sensorway.Apis.Services
         #region - Attributes -
         private ILogService _log;
         private ApiSetupModel _setupModel;
+        private const int TIMEOUT = 10;
         #endregion
     }
 }

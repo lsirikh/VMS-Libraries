@@ -173,9 +173,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Sensorway.Framework.Models\Sensorway.Framework.Models.csproj">
       <Project>{23f65267-edb8-475d-8cd8-4942eb217b15}</Project>
       <Name>Sensorway.Framework.Models</Name>
@@ -183,6 +180,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\Defines\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

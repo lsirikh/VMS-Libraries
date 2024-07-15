@@ -7,6 +7,8 @@ using System.IO;
 using System;
 using Dotnet.OnvifSolution.Collection.Providers;
 using Dotnet.Libraries.Base;
+using Sensorway.Accounts.Collection.Providers;
+using Sensorway.Events.Collection.Providers;
 
 namespace Sensorway.DB.Solution.Modules
 {
@@ -21,8 +23,6 @@ namespace Sensorway.DB.Solution.Modules
 
     public class DbModule : Module
     {
-        
-
         #region - Ctors -
         public DbModule(ILogService log = default)
         {
@@ -38,6 +38,11 @@ namespace Sensorway.DB.Solution.Modules
                 builder.RegisterInstance(setupModel).AsSelf().SingleInstance();
                 builder.RegisterType<CameraDeviceProvider>().SingleInstance();
                 builder.RegisterType<CameraZoneProvider>().SingleInstance();
+                builder.RegisterType<ChannelClientProvider>().SingleInstance();
+                builder.RegisterType<UserProvider>().SingleInstance();
+                builder.RegisterType<LoginSessionProvider>().SingleInstance();
+                builder.RegisterType<EventProvider>().SingleInstance();
+                builder.RegisterType<ActionEventProvider>().SingleInstance();
 
                 builder.RegisterType<DbService>().AsImplementedInterfaces()
                     .SingleInstance().WithMetadata("Order", 2);

@@ -18,16 +18,18 @@ namespace Sensorway.Apis.Modules
     {
 
         #region - Ctors -
-        public ApiModule(ILogService log = default)
+        public ApiModule(ILogService log = default, string name = null)
         {
             _log = log;
             _setup = new ApiSetupModel();
+            _name = name;
         }
 
-        public ApiModule(ILogService log, ApiSetupModel setup)
+        public ApiModule(ILogService log, ApiSetupModel setup, string name = "default")
         {
             _log = log;
             _setup = setup;
+            _name = name;
         }
         #endregion
         #region - Implementation of Interface -
@@ -35,17 +37,12 @@ namespace Sensorway.Apis.Modules
         #region - Overrides -
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterInstance(_setup).AsSelf().SingleInstance();
-
-            //builder.Register(ctx =>
-            //{
-            //    _log?.Info($"{nameof(ApiModule)} is trying to create a single {nameof(ApiService)} instance.");
-            //    return new ApiService(_log, _setup);
-            //}).As<IApiService>().As<IService>()
-            //.SingleInstance()
-            //.WithMetadata("Order", 1);
+            //builder.RegisterInstance(_setup).AsSelf().SingleInstance();
+            //builder.RegisterType<ApiService>().AsImplementedInterfaces().SingleInstance().WithMetadata("Order", 2);
+            builder.RegisterInstance(_setup).Named<ApiSetupModel>(_name).SingleInstance();
+            builder.Register(build => new ApiService(_log, build.ResolveNamed<ApiSetupModel>(_name)))
+                .Named<IApiService>(_name).SingleInstance().WithMetadata("Order", 2);
             _log?.Info($"{nameof(ApiModule)} is trying to create a single {nameof(ApiService)} instance.");
-            builder.RegisterType<ApiService>().AsImplementedInterfaces().SingleInstance().WithMetadata("Order", 2);
         }
         #endregion
         #region - Binding Methods -
@@ -59,6 +56,7 @@ namespace Sensorway.Apis.Modules
         #region - Attributes -
         private ILogService _log;
         private ApiSetupModel _setup;
+        private readonly string _name;
         #endregion
     }
 }

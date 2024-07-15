@@ -1,6 +1,7 @@
 ﻿using Dotnet.OnvifSolution.Base.Models.Components;
 using Dotnet.OnvifSolution.Base.Models.PTZPresets;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Sensorway.VMS.Messages.Enums;
 using Sensorway.VMS.Messages.Models.Base;
 using System.Reflection;
@@ -26,12 +27,14 @@ namespace Sensorway.VMS.Messages.Models.Communications.Presets
 
         public MovePresetRequest(string deviceName = null
                                 , string presetToken = default
-                                , PTZSpeedModel presetSpeed = default)
+                                , PTZSpeedModel presetSpeed = default
+                                , string token = default)
                                     : base(null, EnumType.REQUEST, EnumCommand.REQUEST_MOVE_PRESET)
         {
             DeviceName = deviceName;
             PresetToken = presetToken;
             PresetSpeed = presetSpeed;
+            Token = token;
         }
         #endregion
         #region - Implementation of Interface -
@@ -45,12 +48,14 @@ namespace Sensorway.VMS.Messages.Models.Communications.Presets
         #region - IHanldes -
         #endregion
         #region - Properties -
-        [JsonProperty("device_name", Order = 5)]
+        [JsonProperty("device_name", Order = 3)]
         public string DeviceName { get; set; }
-        [JsonProperty("preset_token", Order = 6)]
+        [JsonProperty("preset_token", Order = 4)]
         public string PresetToken { get; set; }
-        [JsonProperty("preset_speed", Order = 7)]
+        [JsonProperty("preset_speed", Order = 5)]
         public PTZSpeedModel PresetSpeed { get; set; }
+        [JsonProperty("token", Order = 6)]
+        public string Token { get; set; }
         #endregion
         #region - Attributes -
         #endregion

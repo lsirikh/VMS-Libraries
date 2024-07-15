@@ -149,7 +149,6 @@ namespace Sensorway.Apis.MediaMTX.Services
                                   Path = (PathModel)path,
                                   PathConfiguration = (PathConfigurationModel)config,
                               }).Distinct().ToList();
-
             }
             catch (Exception)
             {
@@ -157,8 +156,6 @@ namespace Sensorway.Apis.MediaMTX.Services
                 throw;
             }
         }
-
-
 
         /// <summary>
         /// Global Configuration 설정 정보 API로 받아오기
@@ -398,7 +395,7 @@ namespace Sensorway.Apis.MediaMTX.Services
 
                 return Task.FromResult(true);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Task.FromResult(false);
             }

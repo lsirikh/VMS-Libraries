@@ -72,102 +72,173 @@ namespace Dotnet.OnvifSolution.Factories
         /// <returns></returns>
         public static async Task<DeviceClient> CreateDeviceClientAsync(Uri uri, string username, string password)
         {
-            Binding binding = CreateBinding();
-            var endpoint = new EndpointAddress(uri);
-            var device = new DeviceClient(binding, endpoint);
-            var time_shift = await GetDeviceTimeShift(device);
+            try
+            {
+                Binding binding = CreateBinding();
+                var endpoint = new EndpointAddress(uri);
+                var device = new DeviceClient(binding, endpoint);
 
-            device = new DeviceClient(binding, endpoint);
-            device.ChannelFactory.Endpoint.EndpointBehaviors.Clear();
-            device.ChannelFactory.Endpoint.EndpointBehaviors.Add(new SoapSecurityHeaderBehavior(username, password, time_shift));
+                // 여기가 중요합니다: 사용자 이름과 비밀번호 설정
+                if (device.ClientCredentials != null)
+                {
+                    device.ClientCredentials.UserName.UserName = username;
+                    device.ClientCredentials.UserName.Password = password;
+                }
 
-            // Connectivity Test
+                var time_shift = await GetDeviceTimeShift(device);
 
-            return device;
+                device = new DeviceClient(binding, endpoint);
+                device.ChannelFactory.Endpoint.EndpointBehaviors.Clear();
+                device.ChannelFactory.Endpoint.EndpointBehaviors.Add(new SoapSecurityHeaderBehavior(username, password, time_shift));
+
+                // Connectivity Test
+
+                return device;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public static async Task<MediaClient> CreateMediaClientAsync(IOnvifConnectionModel model)
         {
-            var binding = CreateBinding();
-            var device = await CreateDeviceClientAsync(model.Host, model.Username, model.Password);
-            var caps = await device.GetCapabilitiesAsync(new CapabilityCategory[] { CapabilityCategory.Media });
-            var media = new MediaClient(binding, new EndpointAddress(new Uri(caps.Capabilities.Media.XAddr)));
+            try
+            {
+                var binding = CreateBinding();
+                var device = await CreateDeviceClientAsync(model.Host, model.Username, model.Password);
+                var caps = await device.GetCapabilitiesAsync(new CapabilityCategory[] { CapabilityCategory.Media });
+                var media = new MediaClient(binding, new EndpointAddress(new Uri(caps.Capabilities.Media.XAddr)));
 
-            var time_shift = await GetDeviceTimeShift(device);
-            media.ChannelFactory.Endpoint.EndpointBehaviors.Clear();
-            media.ChannelFactory.Endpoint.EndpointBehaviors.Add(new SoapSecurityHeaderBehavior(model.Username, model.Password, time_shift));
+                var time_shift = await GetDeviceTimeShift(device);
+                media.ChannelFactory.Endpoint.EndpointBehaviors.Clear();
+                media.ChannelFactory.Endpoint.EndpointBehaviors.Add(new SoapSecurityHeaderBehavior(model.Username, model.Password, time_shift));
 
-            return media;
+                return media;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public static async Task<MediaClient> CreateMediaClientAsync(string host, string username, string password)
         {
-            var binding = CreateBinding();
-            var device = await CreateDeviceClientAsync(host, username, password);
-            var caps = await device.GetCapabilitiesAsync(new CapabilityCategory[] { CapabilityCategory.Media });
-            var media = new MediaClient(binding, new EndpointAddress(new Uri(caps.Capabilities.Media.XAddr)));
+            try
+            {
+                var binding = CreateBinding();
+                var device = await CreateDeviceClientAsync(host, username, password);
+                var caps = await device.GetCapabilitiesAsync(new CapabilityCategory[] { CapabilityCategory.Media });
+                var media = new MediaClient(binding, new EndpointAddress(new Uri(caps.Capabilities.Media.XAddr)));
 
-            var time_shift = await GetDeviceTimeShift(device);
-            media.ChannelFactory.Endpoint.EndpointBehaviors.Clear();
-            media.ChannelFactory.Endpoint.EndpointBehaviors.Add(new SoapSecurityHeaderBehavior(username, password, time_shift));
+                var time_shift = await GetDeviceTimeShift(device);
+                media.ChannelFactory.Endpoint.EndpointBehaviors.Clear();
+                media.ChannelFactory.Endpoint.EndpointBehaviors.Add(new SoapSecurityHeaderBehavior(username, password, time_shift));
 
-            return media;
+                return media;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public static async Task<PTZClient> CreatePTZClientAsync(IOnvifConnectionModel model)
         {
-            var binding = CreateBinding();
-            var device = await CreateDeviceClientAsync(model.Host, model.Username, model.Password);
-            var caps = await device.GetCapabilitiesAsync(new CapabilityCategory[] { CapabilityCategory.PTZ });
-            var ptz = new PTZClient(binding, new EndpointAddress(new Uri(caps.Capabilities.PTZ.XAddr)));
+            try
+            {
+                var binding = CreateBinding();
+                var device = await CreateDeviceClientAsync(model.Host, model.Username, model.Password);
+                var caps = await device.GetCapabilitiesAsync(new CapabilityCategory[] { CapabilityCategory.PTZ });
+                var ptz = new PTZClient(binding, new EndpointAddress(new Uri(caps.Capabilities.PTZ.XAddr)));
 
-            var time_shift = await GetDeviceTimeShift(device);
-            ptz.ChannelFactory.Endpoint.EndpointBehaviors.Clear();
-            ptz.ChannelFactory.Endpoint.EndpointBehaviors.Add(new SoapSecurityHeaderBehavior(model.Username, model.Password, time_shift));
+                var time_shift = await GetDeviceTimeShift(device);
+                ptz.ChannelFactory.Endpoint.EndpointBehaviors.Clear();
+                ptz.ChannelFactory.Endpoint.EndpointBehaviors.Add(new SoapSecurityHeaderBehavior(model.Username, model.Password, time_shift));
 
-            return ptz;
+                return ptz;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public static async Task<PTZClient> CreatePTZClientAsync(string host, string username, string password)
         {
-            var binding = CreateBinding();
-            var device = await CreateDeviceClientAsync(host, username, password);
-            var caps = await device.GetCapabilitiesAsync(new CapabilityCategory[] { CapabilityCategory.PTZ });
-            var ptz = new PTZClient(binding, new EndpointAddress(new Uri(caps.Capabilities.PTZ.XAddr)));
+            try
+            {
+                var binding = CreateBinding();
+                var device = await CreateDeviceClientAsync(host, username, password);
+                var caps = await device.GetCapabilitiesAsync(new CapabilityCategory[] { CapabilityCategory.PTZ });
+                var ptz = new PTZClient(binding, new EndpointAddress(new Uri(caps.Capabilities.PTZ.XAddr)));
 
-            var time_shift = await GetDeviceTimeShift(device);
-            ptz.ChannelFactory.Endpoint.EndpointBehaviors.Clear();
-            ptz.ChannelFactory.Endpoint.EndpointBehaviors.Add(new SoapSecurityHeaderBehavior(username, password, time_shift));
+                var time_shift = await GetDeviceTimeShift(device);
+                ptz.ChannelFactory.Endpoint.EndpointBehaviors.Clear();
+                ptz.ChannelFactory.Endpoint.EndpointBehaviors.Add(new SoapSecurityHeaderBehavior(username, password, time_shift));
 
-            return ptz;
+                return ptz;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public static async Task<ImagingPortClient> CreateImagingClientAsync(IOnvifConnectionModel model)
         {
-            var binding = CreateBinding();
-            var device = await CreateDeviceClientAsync(model.Host, model.Username, model.Password);
-            var caps = await device.GetCapabilitiesAsync(new CapabilityCategory[] { CapabilityCategory.Imaging });
-            var imaging = new ImagingPortClient(binding, new EndpointAddress(new Uri(caps.Capabilities.Imaging.XAddr)));
+            try
+            {
+                var binding = CreateBinding();
+                var device = await CreateDeviceClientAsync(model.Host, model.Username, model.Password);
+                var caps = await device.GetCapabilitiesAsync(new CapabilityCategory[] { CapabilityCategory.Imaging });
+                var imaging = new ImagingPortClient(binding, new EndpointAddress(new Uri(caps.Capabilities.Imaging.XAddr)));
 
-            var time_shift = await GetDeviceTimeShift(device);
-            imaging.ChannelFactory.Endpoint.EndpointBehaviors.Clear();
-            imaging.ChannelFactory.Endpoint.EndpointBehaviors.Add(new SoapSecurityHeaderBehavior(model.Username, model.Password, time_shift));
+                var time_shift = await GetDeviceTimeShift(device);
+                imaging.ChannelFactory.Endpoint.EndpointBehaviors.Clear();
+                imaging.ChannelFactory.Endpoint.EndpointBehaviors.Add(new SoapSecurityHeaderBehavior(model.Username, model.Password, time_shift));
 
-            return imaging;
+                return imaging;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public static async Task<ImagingPortClient> CreateImagingClientAsync(string host, string username, string password)
         {
-            var binding = CreateBinding();
-            var device = await CreateDeviceClientAsync(host, username, password);
-            var caps = await device.GetCapabilitiesAsync(new CapabilityCategory[] { CapabilityCategory.Imaging });
-            var imaging = new ImagingPortClient(binding, new EndpointAddress(new Uri(caps.Capabilities.Imaging.XAddr)));
+            try
+            {
+                var binding = CreateBinding();
+                var device = await CreateDeviceClientAsync(host, username, password);
+                var caps = await device.GetCapabilitiesAsync(new CapabilityCategory[] { CapabilityCategory.Imaging });
+                var imaging = new ImagingPortClient(binding, new EndpointAddress(new Uri(caps.Capabilities.Imaging.XAddr)));
 
-            var time_shift = await GetDeviceTimeShift(device);
-            imaging.ChannelFactory.Endpoint.EndpointBehaviors.Clear();
-            imaging.ChannelFactory.Endpoint.EndpointBehaviors.Add(new SoapSecurityHeaderBehavior(username, password, time_shift));
+                var time_shift = await GetDeviceTimeShift(device);
+                imaging.ChannelFactory.Endpoint.EndpointBehaviors.Clear();
+                imaging.ChannelFactory.Endpoint.EndpointBehaviors.Add(new SoapSecurityHeaderBehavior(username, password, time_shift));
 
-            return imaging;
+                return imaging;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         static async Task<TimeSpan> GetDeviceTimeShift(DeviceClient device)
@@ -184,8 +255,26 @@ namespace Dotnet.OnvifSolution.Factories
 
                 throw;
             }
-            
+
         }
+
+        //static TimeSpan GetDeviceTimeShift(DeviceClient device)
+        //{
+        //    try
+        //    {
+        //        var systemDateAndTime = device.GetSystemDateAndTime();
+        //        var utc = systemDateAndTime.UTCDateTime;
+        //        var dt = new System.DateTime(utc.Date.Year, utc.Date.Month, utc.Date.Day,
+        //                          utc.Time.Hour, utc.Time.Minute, utc.Time.Second);
+        //        return dt - System.DateTime.UtcNow;
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+
+        //}
         #endregion
         #region - IHanldes -
         #endregion

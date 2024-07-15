@@ -87,26 +87,62 @@
     <Compile Include="Models\Base\BaseCommunicationModel.cs" />
     <Compile Include="Models\Base\BaseGenericResponseModel.cs" />
     <Compile Include="Models\Base\BaseResponseModel.cs" />
+    <Compile Include="Models\Common\ConnectChannelRequest.cs" />
+    <Compile Include="Models\Common\ConnectChannelResponse.cs" />
     <Compile Include="Models\Common\DeleteZoneRequest.cs" />
     <Compile Include="Models\Common\DeleteZoneResponse.cs" />
+    <Compile Include="Models\Common\DisconnectChannelResponse.cs" />
+    <Compile Include="Models\Common\DisconnectChannelRequest.cs" />
     <Compile Include="Models\Common\GetDummyListRequest.cs" />
     <Compile Include="Models\Common\GetDummyListResponse.cs" />
     <Compile Include="Models\Common\GetZoneListRequest.cs" />
     <Compile Include="Models\Common\GetZoneListResponse.cs" />
     <Compile Include="Models\Common\SetZoneRequest.cs" />
     <Compile Include="Models\Common\SetZoneResponse.cs" />
+    <Compile Include="Models\Communications\Accounts\EditUserRequest.cs" />
+    <Compile Include="Models\Communications\Accounts\EditUserResponse.cs" />
+    <Compile Include="Models\Communications\Accounts\GetMyUserRequest.cs" />
+    <Compile Include="Models\Communications\Accounts\GetMyUserResponse.cs" />
+    <Compile Include="Models\Communications\Accounts\GetUserListRequest.cs" />
+    <Compile Include="Models\Communications\Accounts\GetUserListResponse.cs" />
+    <Compile Include="Models\Communications\Accounts\KeepAliveUserRequest.cs" />
+    <Compile Include="Models\Communications\Accounts\KeepAliveUserResponse.cs" />
+    <Compile Include="Models\Communications\Accounts\LoginUserRequest.cs" />
+    <Compile Include="Models\Communications\Accounts\LoginUserResponse.cs" />
+    <Compile Include="Models\Communications\Accounts\LogoutUserRequest.cs" />
+    <Compile Include="Models\Communications\Accounts\LogoutUserResponse.cs" />
+    <Compile Include="Models\Communications\Accounts\RegisterUserRequest.cs" />
+    <Compile Include="Models\Communications\Accounts\RegisterUserResponse.cs" />
+    <Compile Include="Models\Communications\Accounts\UnregisterUserRequest.cs" />
+    <Compile Include="Models\Communications\Accounts\UnregisterUserResponse.cs" />
     <Compile Include="Models\Communications\EditCameraDeviceResponse.cs" />
     <Compile Include="Models\Communications\EditCameraDeviceRequest.cs" />
-    <Compile Include="Models\Communications\focus\FocusControlRequest.cs" />
-    <Compile Include="Models\Communications\focus\FocusControlResponse.cs" />
+    <Compile Include="Models\Communications\Events\ActEventRequest.cs" />
+    <Compile Include="Models\Communications\Events\ActEventResponse.cs" />
+    <Compile Include="Models\Communications\Events\EditEventRequest.cs" />
+    <Compile Include="Models\Communications\Events\EditEventResponse.cs" />
+    <Compile Include="Models\Communications\Events\GetActionEventListRequest.cs" />
+    <Compile Include="Models\Communications\Events\GetActionEventListResponse.cs" />
+    <Compile Include="Models\Communications\Events\GetEventListRequest.cs" />
+    <Compile Include="Models\Communications\Events\GetEventListResponse.cs" />
+    <Compile Include="Models\Communications\Events\RegisterEventRequest.cs" />
+    <Compile Include="Models\Communications\Events\RegisterEventResponse.cs" />
+    <Compile Include="Models\Communications\Events\UnregisterEventRequest.cs" />
+    <Compile Include="Models\Communications\Events\UnregisterEventResponse.cs" />
+    <Compile Include="Models\Communications\Focus\FocusControlRequest.cs" />
+    <Compile Include="Models\Communications\Focus\FocusControlResponse.cs" />
     <Compile Include="Models\Communications\GetCameraListRequest.cs" />
     <Compile Include="Models\Communications\GetCameraListResponse.cs" />
     <Compile Include="Models\Communications\Presets\DeletePresetRequest.cs" />
     <Compile Include="Models\Communications\Presets\DeletePresetResponse.cs" />
     <Compile Include="Models\Communications\Presets\GetPresetListRequest.cs" />
     <Compile Include="Models\Communications\Presets\GetPresetListResponse.cs" />
+    <Compile Include="Models\Communications\Presets\MoveHomePresetRequest.cs" />
+    <Compile Include="Models\Communications\Presets\MoveHomePresetResponse.cs" />
     <Compile Include="Models\Communications\Presets\MovePresetRequest.cs" />
     <Compile Include="Models\Communications\Presets\MovePresetResponse.cs" />
+    <Compile Include="Models\Communications\Presets\SetHomePresetRequest.cs" />
+    <Compile Include="Models\Communications\Presets\SetHomePresetResponse.cs" />
     <Compile Include="Models\Communications\Presets\SetPresetRequest.cs" />
     <Compile Include="Models\Communications\Presets\SetPresetResponse.cs" />
     <Compile Include="Models\Communications\Ptzs\PtzControlRequest.cs" />
@@ -124,10 +160,6 @@
     <Compile Include="Utils\IdGenTool.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Accounts\" />
     <Folder Include="Models\Configs\" />
   </ItemGroup>
   <ItemGroup>
@@ -135,10 +167,21 @@
       <Project>{bf970c56-ba5a-4db3-ab62-add24383aab7}</Project>
       <Name>Dotnet.OnvifSolution.Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sensorway.Accounts.Base\Sensorway.Accounts.Base.csproj">
+      <Project>{a5f41fc5-d5e2-4e65-b3c1-462145218607}</Project>
+      <Name>Sensorway.Accounts.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sensorway.Events.Base\Sensorway.Events.Base.csproj">
+      <Project>{3126661b-abf9-4291-a5f1-741ea9b1ebf1}</Project>
+      <Name>Sensorway.Events.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sensorway.Framework.Models\Sensorway.Framework.Models.csproj">
       <Project>{23f65267-edb8-475d-8cd8-4942eb217b15}</Project>
       <Name>Sensorway.Framework.Models</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

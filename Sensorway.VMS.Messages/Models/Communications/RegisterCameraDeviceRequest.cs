@@ -23,10 +23,12 @@ namespace Sensorway.VMS.Messages.Models.Communications
         {
         }
 
-        public RegisterCameraDeviceRequest(ConnectionModel model = default) 
+        public RegisterCameraDeviceRequest(ConnectionModel model = default
+                                            , string token = default ) 
                                             : base(null, EnumType.REQUEST, EnumCommand.REQUEST_REGISTER_CAMERA_DEVICE)
         {
             Body = model;
+            Token = token;
         }
         #endregion
         #region - Implementation of Interface -
@@ -42,6 +44,8 @@ namespace Sensorway.VMS.Messages.Models.Communications
         #region - Properties -
         [JsonProperty("body", Order = 3)]
         public ConnectionModel Body { get; set; }
+        [JsonProperty("token", Order = 4)]
+        public string Token { get; set; }
         #endregion
         #region - Attributes -
         #endregion

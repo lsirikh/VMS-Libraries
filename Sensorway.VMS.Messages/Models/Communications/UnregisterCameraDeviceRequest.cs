@@ -1,5 +1,6 @@
 ﻿using Dotnet.OnvifSolution.Base.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Sensorway.VMS.Messages.Enums;
 using Sensorway.VMS.Messages.Models.Base;
 using Sensorway.VMS.Messages.Models.Devices;
@@ -23,10 +24,12 @@ namespace Sensorway.VMS.Messages.Models.Communications
         public UnregisterCameraDeviceRequest() : base(null, EnumType.REQUEST, EnumCommand.REQUEST_UNREGISTER_CAMERA_DEVICE)
         {
         }
-        public UnregisterCameraDeviceRequest(VMSCameraModel model = default) 
+        public UnregisterCameraDeviceRequest(VMSCameraModel model = default
+                                             , string token = default) 
                                             : base(null, EnumType.REQUEST, EnumCommand.REQUEST_UNREGISTER_CAMERA_DEVICE)
         {
             Body = model;
+            Token = token;
         }
         #endregion
         #region - Implementation of Interface -
@@ -42,6 +45,8 @@ namespace Sensorway.VMS.Messages.Models.Communications
         #region - Properties -
         [JsonProperty("body", Order = 3)]
         public VMSCameraModel Body { get; set; }
+        [JsonProperty("token", Order = 4)]
+        public string Token { get; set; }
         #endregion
         #region - Attributes -
         #endregion

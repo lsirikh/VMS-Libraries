@@ -1,4 +1,6 @@
-﻿using Sensorway.VMS.Messages.Enums;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Sensorway.VMS.Messages.Enums;
 using Sensorway.VMS.Messages.Models.Base;
 
 namespace Sensorway.VMS.Messages.Models.Common
@@ -19,6 +21,11 @@ namespace Sensorway.VMS.Messages.Models.Common
         public GetDummyListRequest() : base(null, EnumType.REQUEST, EnumCommand.REQUEST_DUMMY_LIST)
         {
         }
+
+        public GetDummyListRequest(string token = default) : base(null, EnumType.REQUEST, EnumCommand.REQUEST_DUMMY_LIST)
+        {
+            Token = token;
+        }
         #endregion
         #region - Implementation of Interface -
         #endregion
@@ -31,6 +38,8 @@ namespace Sensorway.VMS.Messages.Models.Common
         #region - IHanldes -
         #endregion
         #region - Properties -
+        [JsonProperty("token", Order = 3)]
+        public string Token { get; set; }
         #endregion
         #region - Attributes -
         #endregion

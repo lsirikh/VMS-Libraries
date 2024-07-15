@@ -155,13 +155,13 @@
     <Compile Include="Utils\VisualHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Dotnet.Libraries.Enums\Dotnet.Libraries.Enums.csproj">
       <Project>{65223afe-fbbf-4284-b7c7-0aee48fcfb96}</Project>
       <Name>Dotnet.Libraries.Enums</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

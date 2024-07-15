@@ -2,7 +2,7 @@
 using Sensorway.VMS.Messages.Enums;
 using Sensorway.VMS.Messages.Models.Base;
 
-namespace Sensorway.VMS.Messages.Models.Communications.focus
+namespace Sensorway.VMS.Messages.Models.Communications.Focus
 {
     /****************************************************************************
         Purpose      :                                                           

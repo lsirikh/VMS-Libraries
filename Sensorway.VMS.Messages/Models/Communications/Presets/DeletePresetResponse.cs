@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Sensorway.VMS.Messages.Enums;
 using Sensorway.VMS.Messages.Models.Base;
-using Sensorway.VMS.Messages.Models.Communications.focus;
+using Sensorway.VMS.Messages.Models.Communications.Focus;
 using System.Collections.Generic;
 
 namespace Sensorway.VMS.Messages.Models.Communications.Presets
