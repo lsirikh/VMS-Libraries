@@ -92,9 +92,22 @@ namespace Dotnet.Libraries.Base
             OnLogEvent(new LogEventArgs(msg, level));
         }
 
+        //private void OnLogEvent(LogEventArgs e)
+        //{
+
+        //    LogEvent?.BeginInvoke(this, e, eventData, null);
+        //}
+
         private void OnLogEvent(LogEventArgs e)
         {
-            LogEvent?.BeginInvoke(this, e, eventData, null);
+            if (LogEvent != null)
+            {
+                foreach (var handler in LogEvent.GetInvocationList())
+                {
+                    var eventHandler = (EventHandler<LogEventArgs>)handler;
+                    Task.Run(() => eventHandler.Invoke(this, e));
+                }
+            }
         }
 
         private void eventData(IAsyncResult ar)
