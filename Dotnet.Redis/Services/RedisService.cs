@@ -42,12 +42,13 @@ namespace Dotnet.Redis.Services
                 _log?.Info($"Redis ConnectionMultiplexer was connected({setupModel.IpAddressRedis}:{setupModel.PortRedis}).");
                 Subscriber = connectionMultiplexer.GetSubscriber();
                 _log?.Info($"Redis Subscriber was activated.");
-                return this;
             }
             catch (Exception ex)
             {
-                throw ex;
+                _log.Error($"Redis ConnectionMultiplexer was failed to connect to the Server({setupModel.IpAddressRedis}:{setupModel.PortRedis}).");
+                _log.Error(ex.Message);
             }
+            return this;
         }
 
         public override async Task<IRedisService> ConnectAsync(RedisSetupModel setupModel)

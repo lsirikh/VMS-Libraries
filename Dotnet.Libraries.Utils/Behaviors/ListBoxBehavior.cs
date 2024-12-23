@@ -100,7 +100,9 @@ namespace Dotnet.Libraries.Utils.Behaviors
 
             void incc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
             {
-                Application.Current.Dispatcher.Invoke(() =>
+                if (sender == null || e == null || listBox == null) return;
+
+                Application.Current?.Dispatcher.Invoke(() =>
                 {
                     if (e.Action == NotifyCollectionChangedAction.Add)
                     {

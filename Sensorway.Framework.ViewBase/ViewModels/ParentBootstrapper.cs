@@ -61,9 +61,8 @@ namespace Sensorway.Framework.ViewBase.ViewModels
 
             RegisterBaseType(builder);
             builder.RegisterType<T>().SingleInstance();
-            //builder.RegisterType<T>().InstancePerDependency();
-            ConfigureContainer(builder);
 
+            ConfigureContainer(builder);
             _container = builder.Build();
         }
 
