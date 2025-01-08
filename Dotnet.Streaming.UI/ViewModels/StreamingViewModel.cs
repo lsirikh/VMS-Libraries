@@ -31,19 +31,25 @@ namespace Dotnet.Streaming.UI.ViewModels
         #region - Implementation of Interface -
         #endregion
         #region - Overrides -
-        protected override Task OnActivateAsync(CancellationToken cancellationToken)
-        {
-            return base.OnActivateAsync(cancellationToken);
-        }
-
-        protected override Task OnDeactivateAsync(bool close, CancellationToken cancellationToken)
-        {
-
-            return base.OnDeactivateAsync(close, cancellationToken);
-        }
         #endregion
         #region - Binding Methods -
         public void StartClick(object obj, EventArgs e)
+        {
+            Start();
+        }
+
+        public void StopClick(object obj, EventArgs e)
+        {
+            Close();
+        }
+
+        private void MainWindowModelOnStatusChanged(object sender, string s)
+        {
+            Application.Current.Dispatcher.Invoke(() => Status = s);
+        }
+        #endregion
+        #region - Processes -
+        public void Start()
         {
             var address = DeviceAddress;
 
@@ -66,24 +72,15 @@ namespace Dotnet.Streaming.UI.ViewModels
 
             _model.Start(connectionParameters);
             _model.StatusChanged += MainWindowModelOnStatusChanged;
-
         }
 
-        public void StopClick(object obj, EventArgs e)
+        public void Close()
         {
             _model.Stop();
             _model.StatusChanged -= MainWindowModelOnStatusChanged;
 
-            
             Status = string.Empty;
         }
-
-        private void MainWindowModelOnStatusChanged(object sender, string s)
-        {
-            Application.Current.Dispatcher.Invoke(() => Status = s);
-        }
-        #endregion
-        #region - Processes -
         #endregion
         #region - IHanldes -
         #endregion
@@ -95,10 +92,9 @@ namespace Dotnet.Streaming.UI.ViewModels
             set
             {
                 _deviceAddress = value;
-                NotifyOfPropertyChange(()=> DeviceAddress);
+                NotifyOfPropertyChange(() => DeviceAddress);
             }
         }
-
         public string Status
         {
             get => _status;
@@ -108,8 +104,8 @@ namespace Dotnet.Streaming.UI.ViewModels
                 NotifyOfPropertyChange(() => Status);
             }
         }
-        public string Login { get; set; } = "";
-        public string Password { get; set; } = "";
+        public string Login { get; set; } = "admin";
+        public string Password { get; set; } = "sensorway1";
         #endregion
         #region - Attributes -
         private const string RtspPrefix = "rtsp://";

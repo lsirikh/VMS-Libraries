@@ -8,6 +8,7 @@ using System;
 using System.Windows.Controls;
 using Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels;
 using Sensorway.Framework.Models.Events;
+using Dotnet.Libraries.Base;
 
 namespace Sensorway.Framework.ViewBase.ViewModels.Components
 {
@@ -27,7 +28,7 @@ namespace Sensorway.Framework.ViewBase.ViewModels.Components
         {
         }
 
-        public BaseDataGridViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
+        public BaseDataGridViewModel(IEventAggregator eventAggregator, ILogService log) : base(eventAggregator, log)
         {
         }
         #endregion

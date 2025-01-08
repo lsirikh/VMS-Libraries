@@ -99,8 +99,6 @@ namespace Sensorway.Framework.ViewBase.ViewModels
         {
             Container.InjectProperties(instance);
         }
-
-        
         #endregion
         #region - Binding Methods -
         #endregion

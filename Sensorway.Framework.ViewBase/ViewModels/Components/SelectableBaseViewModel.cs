@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Dotnet.Libraries.Base;
 using Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels;
 
 namespace Sensorway.Framework.ViewBase.ViewModels.Components
@@ -21,7 +22,8 @@ namespace Sensorway.Framework.ViewBase.ViewModels.Components
 
         }
 
-        public SelectableBaseViewModel(IEventAggregator eventAggregator) : base(eventAggregator)
+        public SelectableBaseViewModel(IEventAggregator eventAggregator
+                                        , ILogService log) : base(eventAggregator, log)
         {
 
         }

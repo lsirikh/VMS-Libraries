@@ -192,9 +192,9 @@ namespace Dotnet.OnvifSolution.Services
                 onvifModel.Type = EnumCameraType.FIXED_CAMERA;
                 //_log?.Info($"Raised Exception in {nameof(GenerateOnvifModel)} of {nameof(DeviceService)} : {ex.Message}");
             }  
-            catch (Exception ex)
+            catch (Exception)
             {
-                //_log?.Error($"Raised Exception in {nameof(GenerateOnvifModel)} of {nameof(DeviceService)} : {ex.Message}");
+                //_log?.Error($"Raised Exception in {nameof(GenerateOnvifModel)} : {ex.Message}");
             }
 
             
@@ -209,9 +209,9 @@ namespace Dotnet.OnvifSolution.Services
             {
                 //_log?.Error($"Raised Exception in {nameof(GenerateOnvifModel)} of {nameof(DeviceService)} : {ex.Message}");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //_log?.Error($"Raised Exception in {nameof(GenerateOnvifModel)} of {nameof(DeviceService)} : {ex.Message}");
+                //_log?.Error($"Raised Exception in {nameof(GenerateOnvifModel) : {ex.Message}");
             }
             
             try
