@@ -51,6 +51,10 @@
       <Project>{a5f41fc5-d5e2-4e65-b3c1-462145218607}</Project>
       <Name>Sensorway.Accounts.Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sensorway.Framework.Models\Sensorway.Framework.Models.csproj">
+      <Project>{23f65267-edb8-475d-8cd8-4942eb217b15}</Project>
+      <Name>Sensorway.Framework.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sensorway.Framework\Sensorway.Framework.csproj">
       <Project>{64c8541a-aa04-46ea-a949-94b48dc0f251}</Project>
       <Name>Sensorway.Framework</Name>

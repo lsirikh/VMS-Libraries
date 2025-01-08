@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+using Dotnet.Libraries.Base;
 
 namespace Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels
 {
@@ -25,10 +26,11 @@ namespace Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels
             _className = this.GetType().Name.ToString();
             _eventAggregator = IoC.Get<IEventAggregator>();
         }
-        public BasePanelViewModel(IEventAggregator eventAggregator)
+        public BasePanelViewModel(IEventAggregator eventAggregator, ILogService log)
         {
             _className = this.GetType().Name.ToString();
             _eventAggregator = eventAggregator;
+            _log = log;
         }
         #endregion
         #region - Implementation of Interface -
@@ -40,7 +42,7 @@ namespace Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels
             try
             {
                 base.OnActivateAsync(cancellationToken);
-                Debug.WriteLine($"######### {_className} OnActivate!! #########");
+                _log.Info($"######### {_className} OnActivate!! #########");
                 _eventAggregator?.SubscribeOnUIThread(this);
                 _cancellationTokenSource = new CancellationTokenSource();
             }
@@ -56,7 +58,7 @@ namespace Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels
             try
             {
                 base.OnDeactivateAsync(close, cancellationToken);
-                Debug.WriteLine($"######### {_className} OnDeactivate!! #########");
+                _log.Info($"######### {_className} OnDeactivate!! #########");
                 _eventAggregator?.Unsubscribe(this);
                 if (_cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested)
                     _cancellationTokenSource?.Cancel();
@@ -85,6 +87,7 @@ namespace Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels
         #region - Attributes -
         protected string _className;
         protected IEventAggregator _eventAggregator;
+        protected ILogService _log;
         protected CancellationTokenSource _cancellationTokenSource;
         public const int ACTION_TOKEN_TIMEOUT = 5000;
         #endregion

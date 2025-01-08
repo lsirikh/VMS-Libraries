@@ -313,7 +313,7 @@ namespace DotNet.ResourceMonitor.Services
                 }
                 var avgSum = tempSum / (float)iteration;
                 var avbGigaByteSum = avgSum / (float)(1024);
-                sum = GetTotalMemoryInGigabytes() - avbGigaByteSum;
+                sum = await GetTotalMemoryInGigabytes() - avbGigaByteSum;
 
                 return sum;
             }
@@ -324,25 +324,49 @@ namespace DotNet.ResourceMonitor.Services
             }
         }
 
-        public Task<float> GetBoardGpuUsage()
+        public float GetBoardGpuUsage()
         {
             float sum = 0f;
-            try
-            {
-                if (Performance.GpuCounter == null || !(Performance.GpuCounter.Count() > 0)) return Task.FromResult(sum);
-                sum = Performance.GpuCounter.Sum(x => x.NextValue());
+            var counters = Performance.GpuCounter;
 
-                return Task.FromResult(sum);
-            }
-            catch (Exception)
+            // null 또는 빈 컬렉션이면 바로 0 리턴
+            if (counters == null || !counters.Any())
             {
-                //Performance.GpuCounter = await GetGPUCounters();
-                //_log.Error($"Raised Exception in {nameof(GetBoardGpuUsage)} of {nameof(ResourceMonitorService)} : {ex.Message}");
-                return Task.FromResult(sum);
+                return sum;
             }
+
+
+            //if (Performance.GpuCounter == null || !(Performance.GpuCounter.Count() > 0)) return Task.FromResult(sum);
+            //sum = Performance.GpuCounter.Sum(x => x.NextValue());
+
+            // 이제 실제 합산 로직
+            foreach (var counter in counters)
+            {
+                try
+                {
+                    sum += counter.NextValue();
+                }
+                catch (InvalidOperationException)
+                {
+                    // "지정한 범주에 인스턴스가 없습니다" 등의 예외
+                    // 개별 카운터만 실패할 수 있으므로, 
+                    // 여기서 로그만 남기고 계속 진행하거나, 
+                    // 필요 시 break/return 처리
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    // 그 외 예외 처리
+                    // 로그 남기고 넘어가거나, 상황에 따라 break/return
+                    _log.Error($"{nameof(Exception)} was raised for {ex.Message}");
+                }
+            }
+
+            return sum;
+
         }
 
-        public async Task<List<GPUModel>> GetGpus()
+        public Task<List<GPUModel>> GetGpus()
         {
             try
             {
@@ -356,7 +380,7 @@ namespace DotNet.ResourceMonitor.Services
                 {
                 }
 
-                var boardGpuUsage = (int)(Math.Round(await GetBoardGpuUsage(), 1));
+                var boardGpuUsage = (int)(Math.Round(GetBoardGpuUsage(), 1));
 
                 if (list == null || list.Count == 0)
                 {
@@ -368,7 +392,7 @@ namespace DotNet.ResourceMonitor.Services
                     gpu.CurrentTemp = 0;
                     gpus.Add(gpu);
 
-                    return gpus;
+                    return Task.FromResult(gpus);
                 }
                 else
                 {
@@ -382,7 +406,7 @@ namespace DotNet.ResourceMonitor.Services
                         gpu.CurrentTemp = item.ThermalInformation.ThermalSensors.FirstOrDefault().CurrentTemperature;
                         gpus.Add(gpu);
                     }
-                    return gpus;
+                    return Task.FromResult(gpus);
                 }
             }
             catch (Exception)
@@ -505,16 +529,26 @@ namespace DotNet.ResourceMonitor.Services
             
         }
 
-        public float GetTotalMemoryInGigabytes()
+        public async Task<float> GetTotalMemoryInGigabytes()
         {
-            ulong totalMemoryInBytes = ComputerProvider.FirstOrDefault().TotalPhysicalMemory;
+            try
+            {
+                while (!(ComputerProvider.Count > 0))
+                    await Task.Delay(500);
 
-            var totalMemoryInMegaBytes = totalMemoryInBytes / 1024 / 1024;
+                ulong totalMemoryInBytes = ComputerProvider.FirstOrDefault().TotalPhysicalMemory;
 
-            // 바이트를 기가바이트로 변환
-            return totalMemoryInMegaBytes / (float)1024;
+                var totalMemoryInMegaBytes = totalMemoryInBytes / 1024 / 1024;
+
+                // 바이트를 기가바이트로 변환
+                return totalMemoryInMegaBytes / (float)1024;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
-
         public string GetCPUName()
         {
             return ProcessProvider?.FirstOrDefault()?.Name;

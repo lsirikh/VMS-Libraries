@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using Sensorway.Framework.Models.Defines;
 using System;
+using System.Reflection;
 
 namespace Sensorway.Accounts.Base.Models
 {
@@ -11,26 +13,21 @@ namespace Sensorway.Accounts.Base.Models
        Company      : Sensorway Co., Ltd.                                       
        Email        : lsirikh@naver.com                                         
     ****************************************************************************/
-    public abstract class UserBaseModel : IUserBaseModel
+    public abstract class UserBaseModel : BaseModel, IUserBaseModel
     {
         public UserBaseModel()
         {
         }
 
-        protected UserBaseModel(IUserBaseModel model)
+        protected UserBaseModel(IUserBaseModel model) : base(model.Id)
         {
-            Id = model.Id;
             Created = model.Created;
         }
 
-        public UserBaseModel(int id, DateTime created)
+        public UserBaseModel(int id, DateTime created) : base(id)
         {
-            Id = id;
             Created = created;
         }
-
-        [JsonProperty("id", Order = 1)]
-        public int Id { get; set; }
 
         [JsonProperty("created", Order = 9)]
         public DateTime Created { get; set; }

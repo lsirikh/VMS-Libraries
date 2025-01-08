@@ -12,10 +12,10 @@ namespace DotNet.ResourceMonitor.Services
         Task Initialize();
         string GetCPUName();
         float GetCpuSpeed();
-        float GetTotalMemoryInGigabytes();
+        Task<float> GetTotalMemoryInGigabytes();
         Task<float> GetCpuUsage(int iteration = 5, int delay = 100);
         Task<float> GetRamUsage(int iteration = 1, int delay = 100);
-        Task<float> GetBoardGpuUsage();
+        float GetBoardGpuUsage();
         Task<List<GPUModel>> GetGpus();
         string GetNetworkName(int select = 0);
         float GetNetworkBandwidth(int select = 0);

@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Dotnet.Libraries.Base;
 using Sensorway.Framework.ViewBase.Services;
 using System;
 using System.Collections.ObjectModel;
@@ -28,7 +29,8 @@ namespace Sensorway.Framework.ViewBase.ViewModels.Components
         {
             ViewModelProvider = new ObservableCollection<T>();
         }
-        public BaseDataGridPanel(IEventAggregator eventAggregator) : base(eventAggregator)
+        public BaseDataGridPanel(IEventAggregator eventAggregator, ILogService log) 
+                                : base(eventAggregator, log)
         {
             ViewModelProvider = new ObservableCollection<T>();
         }
@@ -64,7 +66,7 @@ namespace Sensorway.Framework.ViewBase.ViewModels.Components
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _log.Error($"Raised {nameof(Exception)} : {ex.Message}");
             }
             finally
             {
@@ -87,7 +89,7 @@ namespace Sensorway.Framework.ViewBase.ViewModels.Components
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
+                    _log.Error($"Raised {nameof(Exception)} : {ex.Message}");
                 }
 
             }));
@@ -109,7 +111,7 @@ namespace Sensorway.Framework.ViewBase.ViewModels.Components
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"Raised {nameof(Exception)}({nameof(CheckSelectState)}) : {ex.Message}");
+                    _log.Error($"Raised {nameof(Exception)} : {ex.Message}");
                 }
 
             }, cancellationToken);
@@ -134,8 +136,9 @@ namespace Sensorway.Framework.ViewBase.ViewModels.Components
                 _pCancellationTokenSource?.Dispose();
                 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _log.Error($"Raised {nameof(Exception)} : {ex.Message}");
             }
             return Task.CompletedTask;
         }
@@ -152,20 +155,20 @@ namespace Sensorway.Framework.ViewBase.ViewModels.Components
         }
         protected void ButtonAllEnable()
         {
-            Debug.WriteLine($"{_className}({this.GetHashCode()})의 ButtonAllEnable Start!!");
+            _log.Info($"{_className}({this.GetHashCode()})의 ButtonAllEnable Start!!");
             IsButtonEnable = true;
             SaveButtonEnable = true;
             ReloadButtonEnable = true;
             Refresh();
-            Debug.WriteLine($"{_className}({this.GetHashCode()})의 ButtonAllEnable End!!");
+            _log.Info($"{_className}({this.GetHashCode()})의 ButtonAllEnable End!!");
         }
         protected void ButtonAllDisable()
         {
-            Debug.WriteLine($"{_className}({this.GetHashCode()})의 ButtonAllDisable Start!!");
+            _log.Info($"{_className}({this.GetHashCode()})의 ButtonAllDisable Start!!");
             IsButtonEnable = false;
             SaveButtonEnable = false;
             ReloadButtonEnable = false;
-            Debug.WriteLine($"{_className}({this.GetHashCode()})의 ButtonAllDisable End!!");
+            _log.Info($"{_className}({this.GetHashCode()})의 ButtonAllDisable End!!");
         }
         #endregion
         #region - IHanldes -
@@ -178,7 +181,7 @@ namespace Sensorway.Framework.ViewBase.ViewModels.Components
             {
                 _isVisible = value;
                 NotifyOfPropertyChange(() => IsVisible);
-                Debug.WriteLine($"{_className}({this.GetHashCode()})의 IsVisible:{IsVisible}!!");
+                _log.Info($"IsVisible:{IsVisible}!!");
             }
         }
 
@@ -213,7 +216,6 @@ namespace Sensorway.Framework.ViewBase.ViewModels.Components
                 NotifyOfPropertyChange(() =>  SaveButtonEnable);
             }
         }
-
 
         public ObservableCollection<T> ViewModelProvider { get; set; }
         #endregion

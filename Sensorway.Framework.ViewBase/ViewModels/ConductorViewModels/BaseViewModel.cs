@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Dotnet.Libraries.Base;
 using Sensorway.Framework.Models.Defines;
 using Sensorway.Framework.Models.Messages;
 using System;
@@ -12,24 +13,29 @@ using System.Threading.Tasks;
 namespace Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels
 {
     public abstract class BaseViewModel<T> : Conductor<IScreen>
-        , IHandle<CloseAllMessageModel>, IBaseViewModel<T> where T: IBaseModel
+                                            , IHandle<CloseAllMessageModel>
+                                            , IBaseViewModel<T> where T: IBaseModel
     {
         #region - Ctors -
-        public BaseViewModel(IEventAggregator eventAggregator)
+        public BaseViewModel(IEventAggregator eventAggregator
+                            , ILogService log)
         {
             _eventAggregator = eventAggregator;
+            _log = log;
         }
         public BaseViewModel(T model)
         {
+            _log = IoC.Get<ILogService>();
             _className = this.GetType().Name.ToString();
             _model = model;
         }
 
-        public BaseViewModel(IEventAggregator eventAggregator, T model)
+        public BaseViewModel(IEventAggregator eventAggregator, ILogService log, T model)
         {
             _model = model;
             _className = this.GetType().Name.ToString();
             _eventAggregator = eventAggregator;
+            _log = log;
         }
         #endregion
         #region - Implementation of Interface -
@@ -41,7 +47,7 @@ namespace Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels
             try
             {
                 base.OnActivateAsync(cancellationToken);
-                Debug.WriteLine($"######### {_className} OnActivate!! #########");
+                _log.Info($"######### {_className} OnActivate!! #########");
                 _eventAggregator?.SubscribeOnUIThread(this);
                 _cancellationTokenSource = new CancellationTokenSource();
             }
@@ -57,7 +63,7 @@ namespace Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels
             try
             {
                 base.OnDeactivateAsync(close, cancellationToken);
-                Debug.WriteLine($"######### {_className} OnDeactivate!! #########");
+                _log.Info($"######### {_className} OnDeactivate!! #########");
                 _eventAggregator?.Unsubscribe(this);
                 if(_cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested)
                     _cancellationTokenSource?.Cancel();
@@ -94,6 +100,7 @@ namespace Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels
         protected string _className;
         protected T _model;
         protected IEventAggregator _eventAggregator;
+        private ILogService _log;
         protected CancellationTokenSource _cancellationTokenSource;
         public const int ACTION_TOKEN_TIMEOUT = 5000;
         #endregion

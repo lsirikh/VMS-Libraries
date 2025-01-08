@@ -1,12 +1,10 @@
 # Sensorway Libraries
 
-
 ### Goal
 > VMS 프로젝트에 활용될 라이브러리를 정리하였다. 
 
 ### Site : Common
 ### Branch : main  
-### Last Updated : 2024-03-06
 
 ### Libraries  
 
@@ -41,7 +39,7 @@
 * Sensoryway.VMS.Messages
 
 
-### ver1.3
+### v1.3
 
 1. Dotnet.Streaming.UI를 추가하였다.
     - RtspClientSharp의 라이브러리를 활용하여 Rtsp streaming View의 기능을 구현하였다.
@@ -58,7 +56,7 @@
 4. D3d Source, C_Source는 C++라이브러리들을 모아놓은 폴더 구조이다.
 
 
-### ver1.4
+### v1.4
 
 1. LogService의 기능을 변경하여, 로그 정보 시현 창에 줄 수 있는 이벤트를 구현.  
 2. Dotnet.OnvifSolution 일부 기능 추가/변경하여 예외 발생하는 상황을 최대한 완화 하기 위해서 조치하였다.  
@@ -74,3 +72,12 @@
     둘 째, Event 부문의 업데이트  
     셋 째, 그 외의 시스템적인 부분의 업데이트(예 트랜스 코딩 서버 파트와 통신 등)  
 11. Dotnet.Streaming.UI이 추가되었고, 클라이이언트의 메인 스트리밍 라이브러리로 적용되었다.  
+
+
+### v1.4.1
+### Date 2025-01-06
+
+1. ResoruceMonitorService 기능의 Task.Run의 무리한 활용을 줄이고, Async 타입으로 개선하는 작업을 하였고, 일부 서비스 안되는 기능은 안정성을 강화 하였다.  
+2. StreamingViewModel의 기능을 수정하고 AccessViolation 에러를 안정화 시켰다.(FFmpegVideoDecoder.cs)  
+3. Sensroway.Accounts.Base의 UserBaseModel의 클래스를 BaseModel을 상속받도록 수정하였다.  
+4. ILogService를 Sensorway.Framework.Viewbase에 적용을 하였다.  
