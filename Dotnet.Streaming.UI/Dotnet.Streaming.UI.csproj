@@ -168,7 +168,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Modules\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="x64\avcodec-58.dll" />
     <Content Include="x64\avdevice-58.dll" />
@@ -203,6 +205,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <PostBuildEvent>
-</PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -79,11 +79,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Defines\EntityCollectionProvider.cs" />
+    <Compile Include="Enums\EnumTimerStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\TaskTimerService.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Dotnet.Libraries.Base\Dotnet.Libraries.Base.csproj">
       <Project>{477d5544-19ff-4fce-becc-09f29b80c770}</Project>
