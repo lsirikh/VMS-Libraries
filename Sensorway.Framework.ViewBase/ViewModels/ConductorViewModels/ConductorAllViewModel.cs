@@ -63,9 +63,7 @@ namespace Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels
 
             return Task.CompletedTask;
         }
-        
         #endregion
-
         #region - Handles - 
         public Task HandleAsync(CloseAllMessageModel message, CancellationToken cancellationToken)
         {
@@ -75,7 +73,6 @@ namespace Sensorway.Framework.ViewBase.ViewModels.ConductorViewModels
             return Task.CompletedTask;
         }
         #endregion
-
         #region - Properties -
         public int ClassId
         {

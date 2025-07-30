@@ -11,7 +11,6 @@
 
     public class ApiSetupModel
     {
-
         #region - Ctors -
         #endregion
         #region - Implementation of Interface -
@@ -29,7 +28,6 @@
         public int Port { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-
         #endregion
         #region - Attributes -
         #endregion

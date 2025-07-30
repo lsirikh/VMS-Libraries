@@ -20,18 +20,16 @@ namespace Sensorway.Apis.Services
         Email        : lsirikh@naver.com                                         
      ****************************************************************************/
 
-    public class ApiService : IService, IApiService
+    internal partial class ApiService : IApiService
     {
 
         #region - Ctors -
         public ApiService(ILogService log = default)
         {
-            
-        }
-        public ApiService(ILogService log
-                        , ApiSetupModel setupModel)
-        {
             _log = log;
+        }
+        public ApiService(ILogService log, ApiSetupModel setupModel) : this(log)
+        {
             _setupModel = setupModel;
         }
         #endregion
@@ -87,13 +85,13 @@ namespace Sensorway.Apis.Services
                         catch (HttpRequestException ex)
                         {
                             // 연결 실패 또는 다른 HTTP 요청 오류 처리
-                            //_log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(GetRequest)} of {nameof(ApiService)} : {ex}", true);
+                            _log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(GetRequest)} of {nameof(ApiService)} : {ex}", true);
                             return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                         catch (TaskCanceledException ex)
                         {
                             // 타임아웃 처리
-                            //_log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(GetRequest)} of {nameof(ApiService)} : {ex}", true);
+                            _log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(GetRequest)} of {nameof(ApiService)} : {ex}", true);
                             return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                     }
@@ -136,14 +134,14 @@ namespace Sensorway.Apis.Services
                         catch (HttpRequestException ex)
                         {
                             // 연결 실패 또는 다른 HTTP 요청 오류 처리
-                            //_log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(PostRequest)} of {nameof(ApiService)} : {ex}");
+                            _log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(PostRequest)} of {nameof(ApiService)} : {ex}");
                             return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
 
                         }
                         catch (TaskCanceledException ex)
                         {
                             // 타임아웃 처리
-                            //_log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(PostRequest)} of {nameof(ApiService)} : {ex}");
+                            _log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(PostRequest)} of {nameof(ApiService)} : {ex}");
                             return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                     }
@@ -184,13 +182,13 @@ namespace Sensorway.Apis.Services
                         catch (HttpRequestException ex)
                         {
                             // 연결 실패 또는 다른 HTTP 요청 오류 처리
-                            //_log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(DeleteRequest)} of {nameof(ApiService)} : {ex}", true);
+                            _log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(DeleteRequest)} of {nameof(ApiService)} : {ex}", true);
                             return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                         catch (TaskCanceledException ex)
                         {
                             // 타임아웃 처리
-                            //_log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(DeleteRequest)} of {nameof(ApiService)} : {ex}", true);
+                            _log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(DeleteRequest)} of {nameof(ApiService)} : {ex}", true);
                             return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                     }
@@ -236,13 +234,13 @@ namespace Sensorway.Apis.Services
                         catch (HttpRequestException ex)
                         {
                             // 연결 실패 또는 다른 HTTP 요청 오류 처리
-                            //_log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(PatchRequest)} of {nameof(ApiService)} : {ex}", true);
+                            _log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(PatchRequest)} of {nameof(ApiService)} : {ex}", true);
                             return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                         catch (TaskCanceledException ex)
                         {
                             // 타임아웃 처리
-                            //_log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(PatchRequest)} of {nameof(ApiService)} : {ex}", true);
+                            _log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(PatchRequest)} of {nameof(ApiService)} : {ex}", true);
                             return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                     }
@@ -284,13 +282,13 @@ namespace Sensorway.Apis.Services
                         catch (HttpRequestException ex)
                         {
                             // 연결 실패 또는 다른 HTTP 요청 오류 처리
-                            //_log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(PutRequest)} of {nameof(ApiService)} : {ex}", true);
+                            _log?.Error($"Raised {nameof(HttpRequestException)} in {nameof(PutRequest)} of {nameof(ApiService)} : {ex}", true);
                             return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                         catch (TaskCanceledException ex)
                         {
                             // 타임아웃 처리
-                            //_log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(PutRequest)} of {nameof(ApiService)} : {ex}", true);
+                            _log?.Error($"Raised {nameof(TaskCanceledException)} in {nameof(PutRequest)} of {nameof(ApiService)} : {ex}", true);
                             return new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = ex.Message };
                         }
                     }

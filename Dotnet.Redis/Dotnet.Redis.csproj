@@ -10,8 +10,8 @@
     <ProjectGuid>{3B3946AF-2FC8-439B-8D72-6A20AC43FA80}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dotnet.Redis</RootNamespace>
-    <AssemblyName>Dotnet.Redis</AssemblyName>
+    <RootNamespace>Dotnet.Libaries.Redis</RootNamespace>
+    <AssemblyName>Dotnet.Libaries.Redis</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
